@@ -1,3 +1,6 @@
+## 0.1.3+3
+
+* Fix the screen shots url issue
 ## 0.1.3+2
 
 * Add some screen shots

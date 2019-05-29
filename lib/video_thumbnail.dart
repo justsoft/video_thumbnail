@@ -5,7 +5,7 @@
 /// See also:
 ///
 ///  * [video_thumbnail](https://pub.dev/packages/video_thumbnail)
-/// 
+///
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
