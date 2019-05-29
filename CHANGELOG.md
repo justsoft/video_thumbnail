@@ -1,3 +1,6 @@
+## 0.1.3
+
+* Bump the version
 ## 0.0.3
 
 * Add test case

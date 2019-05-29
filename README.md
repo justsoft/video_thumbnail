@@ -2,7 +2,7 @@
 
 This plugin generates thumbnail from video file or URL.  It returns image in memory or writes into a file.  It offers rich options to control the image format, resolution and quality.  Supports iOS and Android.
 
-  [![pub ver](https://img.shields.io/badge/pub-v0.0.3-blue.svg)](https://pub.dev/packages/video_thumbnail)
+  [![pub ver](https://img.shields.io/badge/pb-v0.1.3-blue.svg)](https://pub.dev/packages/video_thumbnail)
   [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/justsoft/)
 
 ## Methods
@@ -17,7 +17,7 @@ This plugin generates thumbnail from video file or URL.  It returns image in mem
 add [video_thumbnail](https://pub.dev/packages/video_thumbnail) as a dependency in your pubspec.yaml file.
 ```yaml
 dependencies:
-  video_thumbnail: ^0.0.3
+  video_thumbnail: ^0.1.3
 ```
 **import**
 ```dart
