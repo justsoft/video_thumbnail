@@ -45,4 +45,4 @@ final uint8list = await VideoThumbnail.thumbnailFile(
 ```
 
 ## Notes
-Fork or pull requests are alway welcome. It seems have little performance issue while generating WebP thumbnail by libwebp under iOS.
+Fork or pull requests are always welcome. Currently it seems have a little performance issue while generating WebP thumbnail by using libwebp under iOS.

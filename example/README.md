@@ -1,6 +1,6 @@
 # video_thumbnail_example
 
-Demonstrates how to use the video_thumbnail plugin.
+Demonstrates how to use the [video_thumbnail](https://pub.dev/packages/video_thumbnail) plugin.
 
 ## Getting Started
 
