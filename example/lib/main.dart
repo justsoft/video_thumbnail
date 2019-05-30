@@ -6,8 +6,8 @@ import 'dart:io';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'dart:ui' as ui show Image;
 // package publish gives warning for those imports
-//import 'package:image_picker/image_picker.dart';
-//import 'package:path_provider/path_provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() => runApp(MyApp());
 
