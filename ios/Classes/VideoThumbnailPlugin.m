@@ -113,7 +113,7 @@
         int height = ( int ) CGImageGetHeight(cgImage);
         int stride = ( int ) CGImageGetBytesPerRow(cgImage);
         size_t ret_size = 0;
-        uint8_t *output;
+        uint8_t *output = NULL;
         
         // preprocess the data for libwebp
         if( ainfo == kCGImageAlphaPremultipliedFirst || ainfo == kCGImageAlphaNoneSkipFirst ) {
