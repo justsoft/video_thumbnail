@@ -1,3 +1,6 @@
+## 0.1.3+4
+
+* Fix "src/dsp/dsp.h" couldn't find issue due to Podfile has "use_frameworks!"
 ## 0.1.3+3
 
 * Fix the screen shots url issue
