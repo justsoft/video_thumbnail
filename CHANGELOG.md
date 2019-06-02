@@ -1,3 +1,6 @@
+## 0.1.5+1
+
+* Minor updates
 ## 0.1.5
 
 * Add repository and issue tracker link and bump version to 0.1.5
