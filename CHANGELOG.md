@@ -1,3 +1,6 @@
+## 0.1.6
+
+* Add timeMs, use getScaledFrameAtTime to eliminate image scaling if Android API level >= 27
 ## 0.1.5+1
 
 * Minor updates

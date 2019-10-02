@@ -28,6 +28,7 @@ class VideoThumbnail {
       String thumbnailPath,
       ImageFormat imageFormat,
       int maxHeightOrWidth = 0,
+      int timeMs = 0,
       int quality}) async {
     assert(video != null && video.isNotEmpty);
     final reqMap = <String, dynamic>{
@@ -35,6 +36,7 @@ class VideoThumbnail {
       'path': thumbnailPath,
       'format': imageFormat.index,
       'maxhow': maxHeightOrWidth,
+      'timeMs': timeMs,
       'quality': quality
     };
     return await _channel.invokeMethod('file', reqMap);
@@ -48,12 +50,14 @@ class VideoThumbnail {
       {@required String video,
       ImageFormat imageFormat,
       int maxHeightOrWidth = 0,
+      int timeMs = 0,
       int quality}) async {
     assert(video != null && video.isNotEmpty);
     final reqMap = <String, dynamic>{
       'video': video,
       'format': imageFormat.index,
       'maxhow': maxHeightOrWidth,
+      'timeMs': timeMs,
       'quality': quality
     };
     return await _channel.invokeMethod('data', reqMap);

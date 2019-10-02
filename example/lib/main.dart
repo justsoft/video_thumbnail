@@ -24,6 +24,7 @@ class _MyAppState extends State<MyApp> {
   ImageFormat _format = ImageFormat.JPEG;
   int _quality = 50;
   int _size = 0;
+  int _timeMs = 0;
 
   int _imageDataSize;
   ui.Image _uiImageInData;
@@ -74,9 +75,9 @@ class _MyAppState extends State<MyApp> {
               Slider(
                 value: _size * 1.0,
                 onChanged: (v) => setState(() {
-                      _editNode.unfocus();
-                      _size = v.toInt();
-                    }),
+                  _editNode.unfocus();
+                  _size = v.toInt();
+                }),
                 max: 512.0,
                 divisions: 256,
                 label: "$_size",
@@ -84,14 +85,29 @@ class _MyAppState extends State<MyApp> {
               Center(
                 child: (_size == 0)
                     ? const Text("Original of the video's")
-                    : Text("Max height/width: $_size"),
+                    : Text("Max height/width: $_size(px)"),
+              ),
+              Slider(
+                value: _timeMs * 1.0,
+                onChanged: (v) => setState(() {
+                  _editNode.unfocus();
+                  _timeMs = v.toInt();
+                }),
+                max: 10.0 * 1000,
+                divisions: 1000,
+                label: "$_timeMs",
+              ),
+              Center(
+                child: (_timeMs == 0)
+                    ? const Text("The beginning of the video")
+                    : Text("The closest frame at $_timeMs(ms) of the video"),
               ),
               Slider(
                 value: _quality * 1.0,
                 onChanged: (v) => setState(() {
-                      _editNode.unfocus();
-                      _quality = v.toInt();
-                    }),
+                  _editNode.unfocus();
+                  _quality = v.toInt();
+                }),
                 max: 100.0,
                 divisions: 100,
                 label: "$_quality",
@@ -118,9 +134,9 @@ class _MyAppState extends State<MyApp> {
                               groupValue: _format,
                               value: ImageFormat.JPEG,
                               onChanged: (v) => setState(() {
-                                    _format = v;
-                                    _editNode.unfocus();
-                                  }),
+                                _format = v;
+                                _editNode.unfocus();
+                              }),
                             ),
                             const Text("JPEG"),
                           ]),
@@ -132,9 +148,9 @@ class _MyAppState extends State<MyApp> {
                               groupValue: _format,
                               value: ImageFormat.PNG,
                               onChanged: (v) => setState(() {
-                                    _format = v;
-                                    _editNode.unfocus();
-                                  }),
+                                _format = v;
+                                _editNode.unfocus();
+                              }),
                             ),
                             const Text("PNG"),
                           ]),
@@ -146,9 +162,9 @@ class _MyAppState extends State<MyApp> {
                               groupValue: _format,
                               value: ImageFormat.WEBP,
                               onChanged: (v) => setState(() {
-                                    _format = v;
-                                    _editNode.unfocus();
-                                  }),
+                                _format = v;
+                                _editNode.unfocus();
+                              }),
                             ),
                             const Text("WebP"),
                           ]),
@@ -238,19 +254,19 @@ class _MyAppState extends State<MyApp> {
                       video: _video.text,
                       imageFormat: _format,
                       maxHeightOrWidth: _size,
+                      timeMs: _timeMs,
                       quality: _quality);
 
                   _imageDataSize = thumbnail.length;
                   print("image data size: $_imageDataSize");
 
                   _imageInData = Image.memory(thumbnail)
-                    ..image
-                        .resolve(ImageConfiguration())
-                        .addListener((ImageInfo info, bool _) {
+                    ..image.resolve(ImageConfiguration()).addListener(
+                        ImageStreamListener((ImageInfo info, bool _) {
                       setState(() {
                         _uiImageInData = info.image;
                       });
-                    });
+                    }));
                 },
                 child: const Text("Data"),
               ),
@@ -272,6 +288,7 @@ class _MyAppState extends State<MyApp> {
                       thumbnailPath: _tempDir,
                       imageFormat: _format,
                       maxHeightOrWidth: _size,
+                      timeMs: _timeMs,
                       quality: _quality);
 
                   print("thumbnail file is located: $thumbnail");
@@ -283,13 +300,12 @@ class _MyAppState extends State<MyApp> {
                   print("image file size: $_imageFileSize");
 
                   _imageInFile = Image.memory(bytes)
-                    ..image
-                        .resolve(ImageConfiguration())
-                        .addListener((ImageInfo info, bool _) {
+                    ..image.resolve(ImageConfiguration()).addListener(
+                        ImageStreamListener((ImageInfo info, bool _) {
                       setState(() {
                         _uiImageInFile = info.image;
                       });
-                    });
+                    }));
                 },
                 child: const Text("File"),
               ),

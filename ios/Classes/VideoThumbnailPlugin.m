@@ -31,6 +31,7 @@
     NSString *path = _args[@"path"];
     int format = [[_args objectForKey:@"format"] intValue];
     int maxhow = [[_args objectForKey:@"maxhow"] intValue];
+    int timeMs = [[_args objectForKey:@"timeMs"] intValue];
     int quality = [[_args objectForKey:@"quality"] intValue];
     _args = nil;
     
@@ -38,9 +39,9 @@
     [NSURL fileURLWithPath:file] : [NSURL URLWithString:file];
     
     if ([@"data" isEqualToString:call.method]) {
-        result([VideoThumbnailPlugin generateThumbnail:url format:format maxHeightOrWidth:maxhow quality:quality]);
+        result([VideoThumbnailPlugin generateThumbnail:url format:format maxHeightOrWidth:maxhow timeMs:timeMs quality:quality]);
     } else if ([@"file" isEqualToString:call.method]) {
-        NSData *data = [VideoThumbnailPlugin generateThumbnail:url format:format maxHeightOrWidth:maxhow quality:quality];
+        NSData *data = [VideoThumbnailPlugin generateThumbnail:url format:format maxHeightOrWidth:maxhow timeMs:timeMs quality:quality];
         NSString *ext = ( (format == 0 ) ? @"jpg" : ( format == 1 ) ? @"png" : @"webp" );
         NSURL *thumbnail = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:ext];
         
@@ -73,7 +74,7 @@
     }
 }
 
-+ (NSData *)generateThumbnail:(NSURL*)url format:(int)format maxHeightOrWidth:(int)maxhow quality:(int)quality {
++ (NSData *)generateThumbnail:(NSURL*)url format:(int)format maxHeightOrWidth:(int)maxhow timeMs:(int)timeMs quality:(int)quality {
     AVURLAsset *asset=[[AVURLAsset alloc] initWithURL:url options:nil];
     AVAssetImageGenerator *imgGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
     
@@ -81,7 +82,7 @@
     imgGenerator.maximumSize = CGSizeMake((CGFloat)maxhow, (CGFloat)maxhow);
     
     NSError *error = nil;
-    CGImageRef cgImage = [imgGenerator copyCGImageAtTime:CMTimeMake( 0, 1 ) actualTime:nil error:&error];
+    CGImageRef cgImage = [imgGenerator copyCGImageAtTime:CMTimeMake(timeMs, 1000) actualTime:nil error:&error];
     
     if( error != nil ) {
         NSLog(@"couldn't generate thumbnail, error:%@", error);
