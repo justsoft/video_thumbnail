@@ -9,6 +9,8 @@ import android.graphics.Rect;
 import android.media.ExifInterface;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -20,6 +22,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -34,6 +38,8 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
     private static String TAG = "ThumbnailPlugin";
     private static final int HIGH_QUALITY_MIN_VAL = 70;
 
+    private ExecutorService executor = Executors.newCachedThreadPool();
+
     /**
      * Plugin registration.
      */
@@ -43,28 +49,40 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
     }
 
     @Override
-    public void onMethodCall(MethodCall call, Result result) {
+    public void onMethodCall(MethodCall call, final Result result) {
         final Map<String, Object> args = call.arguments();
 
-        try {
-            final String video = (String) args.get("video");
-            final int format = (int) args.get("format");
-            final int maxhow = (int) args.get("maxhow");
-            final int timeMs = (int) args.get("timeMs");
-            final int quality = (int) args.get("quality");
+        final String video = (String) args.get("video");
+        final int format = (int) args.get("format");
+        final int maxhow = (int) args.get("maxhow");
+        final int timeMs = (int) args.get("timeMs");
+        final int quality = (int) args.get("quality");
+        final String method = call.method;
 
-            if (call.method.equals("file")) {
-                final String path = (String) args.get("path");
-                result.success(buildThumbnailFile(video, path, format, maxhow, timeMs, quality));
-            } else if (call.method.equals("data")) {
-                result.success(buildThumbnailData(video, format, maxhow, timeMs, quality));
-            } else {
-                result.notImplemented();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                Object thumbnail = null;
+                boolean handled = false;
+                Exception exc = null;
+
+                try {
+                    if (method.equals("file")) {
+                        final String path = (String) args.get("path");
+                        thumbnail = buildThumbnailFile(video, path, format, maxhow, timeMs, quality);
+                        handled = true;
+
+                    } else if (method.equals("data")) {
+                        thumbnail = buildThumbnailData(video, format, maxhow, timeMs, quality);
+                        handled = true;
+                    }
+                } catch (Exception e) {
+                    exc = e;
+                }
+
+                onResult(result, thumbnail, handled, exc);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.error("exception", e.getMessage(), null);
-        }
+        });
     }
 
     private static Bitmap.CompressFormat intToFormat(int format) {
@@ -139,6 +157,30 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
             throw new RuntimeException(e);
         }
         return fullpath;
+    }
+
+    private void onResult(final Result result, final Object thumbnail, final boolean handled, final Exception e) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!handled) {
+                    result.notImplemented();
+                    return;
+                }
+
+                if (e != null) {
+                    e.printStackTrace();
+                    result.error("exception", e.getMessage(), null);
+                    return;
+                }
+
+                result.success(thumbnail);
+            }
+        });
+    }
+
+    private static void runOnUiThread(Runnable runnable) {
+        new Handler(Looper.getMainLooper()).post(runnable);
     }
 
     /**
