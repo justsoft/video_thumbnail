@@ -1,3 +1,6 @@
+## 0.1.7
+
+* Generate the thumbnail asynchronously on Android. ( Thanks for Tairs Rzajevs )
 ## 0.1.6
 
 * Add timeMs, use getScaledFrameAtTime to eliminate image scaling if Android API level >= 27
