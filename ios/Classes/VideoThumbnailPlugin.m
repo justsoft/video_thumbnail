@@ -30,7 +30,8 @@
     NSString *file = _args[@"video"];
     NSString *path = _args[@"path"];
     int format = [[_args objectForKey:@"format"] intValue];
-    int maxhow = [[_args objectForKey:@"maxhow"] intValue];
+    int maxh = [[_args objectForKey:@"maxh"] intValue];
+    int maxw = [[_args objectForKey:@"maxw"] intValue];
     int timeMs = [[_args objectForKey:@"timeMs"] intValue];
     int quality = [[_args objectForKey:@"quality"] intValue];
     _args = nil;
@@ -39,9 +40,9 @@
     [NSURL fileURLWithPath:file] : [NSURL URLWithString:file];
     
     if ([@"data" isEqualToString:call.method]) {
-        result([VideoThumbnailPlugin generateThumbnail:url format:format maxHeightOrWidth:maxhow timeMs:timeMs quality:quality]);
+        result([VideoThumbnailPlugin generateThumbnail:url format:format maxHeight:maxh maxWidth:maxw timeMs:timeMs quality:quality]);
     } else if ([@"file" isEqualToString:call.method]) {
-        NSData *data = [VideoThumbnailPlugin generateThumbnail:url format:format maxHeightOrWidth:maxhow timeMs:timeMs quality:quality];
+        NSData *data = [VideoThumbnailPlugin generateThumbnail:url format:format maxHeight:maxh maxWidth:maxh timeMs:timeMs quality:quality];
         NSString *ext = ( (format == 0 ) ? @"jpg" : ( format == 1 ) ? @"png" : @"webp" );
         NSURL *thumbnail = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:ext];
         
@@ -74,12 +75,12 @@
     }
 }
 
-+ (NSData *)generateThumbnail:(NSURL*)url format:(int)format maxHeightOrWidth:(int)maxhow timeMs:(int)timeMs quality:(int)quality {
++ (NSData *)generateThumbnail:(NSURL*)url format:(int)format maxHeight:(int)maxh maxWidth:(int)maxw timeMs:(int)timeMs quality:(int)quality {
     AVURLAsset *asset=[[AVURLAsset alloc] initWithURL:url options:nil];
     AVAssetImageGenerator *imgGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
     
     imgGenerator.appliesPreferredTrackTransform = TRUE;
-    imgGenerator.maximumSize = CGSizeMake((CGFloat)maxhow, (CGFloat)maxhow);
+    imgGenerator.maximumSize = CGSizeMake((CGFloat)maxw, (CGFloat)maxh);
     
     NSError *error = nil;
     CGImageRef cgImage = [imgGenerator copyCGImageAtTime:CMTimeMake(timeMs, 1000) actualTime:nil error:&error];

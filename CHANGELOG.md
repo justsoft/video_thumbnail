@@ -1,3 +1,7 @@
+## 0.2.0
+
+* Breaking change: Switch the `maxHeightOrWidth` to `maxHeight` and `maxWidth`
+
 ## 0.1.7
 
 * Generate the thumbnail asynchronously on Android. ( Thanks for Tairs Rzajevs )

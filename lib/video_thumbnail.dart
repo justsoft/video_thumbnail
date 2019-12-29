@@ -27,7 +27,8 @@ class VideoThumbnail {
       {@required String video,
       String thumbnailPath,
       ImageFormat imageFormat,
-      int maxHeightOrWidth = 0,
+      int maxHeight = 0,
+      int maxWidth = 0,
       int timeMs = 0,
       int quality}) async {
     assert(video != null && video.isNotEmpty);
@@ -35,7 +36,8 @@ class VideoThumbnail {
       'video': video,
       'path': thumbnailPath,
       'format': imageFormat.index,
-      'maxhow': maxHeightOrWidth,
+      'maxh': maxHeight,
+      'maxw': maxWidth,
       'timeMs': timeMs,
       'quality': quality
     };
@@ -49,14 +51,16 @@ class VideoThumbnail {
   static Future<Uint8List> thumbnailData(
       {@required String video,
       ImageFormat imageFormat,
-      int maxHeightOrWidth = 0,
+      int maxHeight= 0,
+      int maxWidth = 0,
       int timeMs = 0,
       int quality}) async {
     assert(video != null && video.isNotEmpty);
     final reqMap = <String, dynamic>{
       'video': video,
       'format': imageFormat.index,
-      'maxhow': maxHeightOrWidth,
+      'maxh': maxHeight,
+      'maxw': maxWidth,
       'timeMs': timeMs,
       'quality': quality
     };

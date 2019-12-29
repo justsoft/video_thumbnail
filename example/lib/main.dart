@@ -23,7 +23,8 @@ class _MyAppState extends State<MyApp> {
           "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4");
   ImageFormat _format = ImageFormat.JPEG;
   int _quality = 50;
-  int _size = 0;
+  int _sizeH = 0;
+  int _sizeW = 0;
   int _timeMs = 0;
 
   int _imageDataSize;
@@ -73,19 +74,34 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
               Slider(
-                value: _size * 1.0,
+                value: _sizeH * 1.0,
                 onChanged: (v) => setState(() {
                   _editNode.unfocus();
-                  _size = v.toInt();
+                  _sizeH = v.toInt();
                 }),
                 max: 512.0,
                 divisions: 256,
-                label: "$_size",
+                label: "$_sizeH",
               ),
               Center(
-                child: (_size == 0)
-                    ? const Text("Original of the video's")
-                    : Text("Max height/width: $_size(px)"),
+                child: (_sizeH == 0)
+                    ? const Text("Original of the video's height or scaled by the source aspect ratio")
+                    : Text("Max height: $_sizeH(px)"),
+              ),
+              Slider(
+                value: _sizeW * 1.0,
+                onChanged: (v) => setState(() {
+                  _editNode.unfocus();
+                  _sizeW = v.toInt();
+                }),
+                max: 512.0,
+                divisions: 256,
+                label: "$_sizeW",
+              ),
+              Center(
+                child: (_sizeW == 0)
+                    ? const Text("Original of the video's width or scaled by source aspect ratio")
+                    : Text("Max width: $_sizeW(px)"),
               ),
               Slider(
                 value: _timeMs * 1.0,
@@ -253,7 +269,8 @@ class _MyAppState extends State<MyApp> {
                   final thumbnail = await VideoThumbnail.thumbnailData(
                       video: _video.text,
                       imageFormat: _format,
-                      maxHeightOrWidth: _size,
+                      maxHeight: _sizeH,
+                      maxWidth: _sizeW,
                       timeMs: _timeMs,
                       quality: _quality);
 
@@ -287,7 +304,8 @@ class _MyAppState extends State<MyApp> {
                       video: _video.text,
                       thumbnailPath: _tempDir,
                       imageFormat: _format,
-                      maxHeightOrWidth: _size,
+                      maxHeight: _sizeH,
+                      maxWidth: _sizeW,
                       timeMs: _timeMs,
                       quality: _quality);
 
