@@ -42,7 +42,7 @@
     if ([@"data" isEqualToString:call.method]) {
         result([VideoThumbnailPlugin generateThumbnail:url format:format maxHeight:maxh maxWidth:maxw timeMs:timeMs quality:quality]);
     } else if ([@"file" isEqualToString:call.method]) {
-        NSData *data = [VideoThumbnailPlugin generateThumbnail:url format:format maxHeight:maxh maxWidth:maxh timeMs:timeMs quality:quality];
+        NSData *data = [VideoThumbnailPlugin generateThumbnail:url format:format maxHeight:maxh maxWidth:maxw timeMs:timeMs quality:quality];
         NSString *ext = ( (format == 0 ) ? @"jpg" : ( format == 1 ) ? @"png" : @"webp" );
         NSURL *thumbnail = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:ext];
         
