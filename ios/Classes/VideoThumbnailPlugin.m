@@ -62,13 +62,8 @@
                                             details:error.localizedDescription] );
             } else result( [FlutterError errorWithCode:@"IO Error" message:@"Failed to write data to file" details:nil] );
         } else {
-            NSString *fullpath = [thumbnail absoluteString];
-            if([fullpath hasPrefix:@"file://"]) {
-                result([fullpath substringFromIndex:7]);
-            }
-            else {
-                result(fullpath);
-            }
+            NSString *fullpath = [thumbnail path];
+            result(fullpath);
         }
     } else {
         result(FlutterMethodNotImplemented);
