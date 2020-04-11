@@ -88,25 +88,25 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
 
     private static Bitmap.CompressFormat intToFormat(int format) {
         switch (format) {
-        default:
-        case 0:
-            return Bitmap.CompressFormat.JPEG;
-        case 1:
-            return Bitmap.CompressFormat.PNG;
-        case 2:
-            return Bitmap.CompressFormat.WEBP;
+            default:
+            case 0:
+                return Bitmap.CompressFormat.JPEG;
+            case 1:
+                return Bitmap.CompressFormat.PNG;
+            case 2:
+                return Bitmap.CompressFormat.WEBP;
         }
     }
 
     private static String formatExt(int format) {
         switch (format) {
-        default:
-        case 0:
-            return new String("jpg");
-        case 1:
-            return new String("png");
-        case 2:
-            return new String("webp");
+            default:
+            case 0:
+                return new String("jpg");
+            case 1:
+                return new String("png");
+            case 2:
+                return new String("webp");
         }
     }
 
@@ -193,13 +193,14 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
      * @param targetH the max height of the thumbnail
      * @param targetW the max width of the thumbnail
      */
-    public static Bitmap createVideoThumbnail(String video, int targetH, int targetW, int timeMs) {
+    public static Bitmap createVideoThumbnail(final String video, int targetH, int targetW, int timeMs) {
         Bitmap bitmap = null;
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         try {
-            Log.d(TAG, String.format("setDataSource: %s )", video));
-            if (video.startsWith("file://") || video.startsWith("/")) {
+            if (video.startsWith("/")) {
                 retriever.setDataSource(video);
+            } else if (video.startsWith("file://")) {
+                retriever.setDataSource(video.substring(7));
             } else {
                 retriever.setDataSource(video, new HashMap<String, String>());
             }

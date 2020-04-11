@@ -26,20 +26,20 @@ class VideoThumbnail {
   static Future<String> thumbnailFile(
       {@required String video,
       String thumbnailPath,
-      ImageFormat imageFormat,
+      ImageFormat imageFormat = ImageFormat.PNG,
       int maxHeight = 0,
       int maxWidth = 0,
       int timeMs = 0,
-      int quality}) async {
+      int quality = 10}) async {
     assert(video != null && video.isNotEmpty);
     final reqMap = <String, dynamic>{
       'video': video,
       'path': thumbnailPath,
-      'format': imageFormat.index,
-      'maxh': maxHeight,
-      'maxw': maxWidth,
-      'timeMs': timeMs,
-      'quality': quality
+      'format': imageFormat?.index ?? 0,
+      'maxh': maxHeight ?? 0,
+      'maxw': maxWidth ?? 0,
+      'timeMs': timeMs ?? 0,
+      'quality': quality ?? 10
     };
     return await _channel.invokeMethod('file', reqMap);
   }
@@ -50,19 +50,19 @@ class VideoThumbnail {
   /// The lower quality value creates lower quality of the thumbnail image, but it gets ignored for PNG format.
   static Future<Uint8List> thumbnailData(
       {@required String video,
-      ImageFormat imageFormat,
-      int maxHeight= 0,
+      ImageFormat imageFormat = ImageFormat.PNG,
+      int maxHeight = 0,
       int maxWidth = 0,
       int timeMs = 0,
-      int quality}) async {
+      int quality = 10}) async {
     assert(video != null && video.isNotEmpty);
     final reqMap = <String, dynamic>{
       'video': video,
-      'format': imageFormat.index,
-      'maxh': maxHeight,
-      'maxw': maxWidth,
-      'timeMs': timeMs,
-      'quality': quality
+      'format': imageFormat?.index ?? 0,
+      'maxh': maxHeight ?? 0,
+      'maxw': maxWidth ?? 0,
+      'timeMs': timeMs ?? 0,
+      'quality': quality ?? 10
     };
     return await _channel.invokeMethod('data', reqMap);
   }

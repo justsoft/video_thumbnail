@@ -1,3 +1,9 @@
+## 0.2.1
+
+* Remove logging out the setDataSource to prevent leaking the video URL
+* Accept the file source with the 'file://' prefix
+* Give all default values to make it more user friendly
+
 ## 0.2.0
 
 * Breaking change: Switch the `maxHeightOrWidth` to `maxHeight` and `maxWidth`

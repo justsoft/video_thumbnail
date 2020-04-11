@@ -36,8 +36,8 @@
     int quality = [[_args objectForKey:@"quality"] intValue];
     _args = nil;
     
-    NSURL *url = ( [file hasPrefix:@"file://"] || [file hasPrefix:@"/"] ) ? 
-    [NSURL fileURLWithPath:file] : [NSURL URLWithString:file];
+    NSURL *url = [file hasPrefix:@"file://"] ? [NSURL fileURLWithPath:[file substringFromIndex:7]] :
+      ( [file hasPrefix:@"/"] ? [NSURL fileURLWithPath:file] : [NSURL URLWithString:file] );
     
     if ([@"data" isEqualToString:call.method]) {
         result([VideoThumbnailPlugin generateThumbnail:url format:format maxHeight:maxh maxWidth:maxw timeMs:timeMs quality:quality]);
