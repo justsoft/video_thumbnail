@@ -93,7 +93,7 @@
     if( format <= 1 ) {
         UIImage *thumbnail = [UIImage imageWithCGImage:cgImage];
         
-        CGImageRelease(imageRef);  // CGImageRef won't be released by ARC
+        CGImageRelease(cgImage);  // CGImageRef won't be released by ARC
         
         if( format == 0 ) {
             CGFloat fQuality = ( CGFloat) ( quality * 0.01 );
