@@ -104,6 +104,7 @@
     } else {
         CGColorSpaceRef colorSpace = CGImageGetColorSpace(cgImage);
         if (CGColorSpaceGetModel(colorSpace) != kCGColorSpaceModelRGB) {
+            CGImageRelease(cgImage);
             return nil;
         }
         CGImageAlphaInfo ainfo = CGImageGetAlphaInfo( cgImage );

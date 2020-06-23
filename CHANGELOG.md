@@ -1,3 +1,8 @@
+## 0.2.2
+
+* Fix memory leak ( Thanks for Grigori )
+* Additional potential memory leak fix
+
 ## 0.2.1
 
 * Remove logging out the setDataSource to prevent leaking the video URL
