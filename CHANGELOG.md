@@ -1,3 +1,7 @@
+## 0.2.3
+
+* Generate the thumbnails in a background thread for iOS (Thanks for Hafeez Ahmed)
+
 ## 0.2.2
 
 * Fix memory leak ( Thanks for Grigori )
