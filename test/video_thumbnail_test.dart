@@ -24,7 +24,8 @@ void main() {
             video: 'video',
             thumbnailPath: 'path',
             imageFormat: ImageFormat.JPEG,
-            maxHeightOrWidth: 123,
+            maxWidth: 123,
+            maxHeight: 123,
             quality: 45),
         'file=video:path:0:123:45');
   });
