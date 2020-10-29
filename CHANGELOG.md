@@ -1,3 +1,7 @@
+## 0.2.4
+
+* Fix the missing 'platforms' issue
+
 ## 0.2.3
 
 * Generate the thumbnails in a background thread for iOS (Thanks for Hafeez Ahmed)
