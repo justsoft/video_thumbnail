@@ -1,3 +1,7 @@
+## 0.2.5
+
+* Two enhancement
+
 ## 0.2.4
 
 * Fix the missing 'platforms' issue
