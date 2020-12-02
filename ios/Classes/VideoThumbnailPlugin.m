@@ -96,6 +96,8 @@
     
     imgGenerator.appliesPreferredTrackTransform = TRUE;
     imgGenerator.maximumSize = CGSizeMake((CGFloat)maxw, (CGFloat)maxh);
+    imgGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+    imgGenerator.requestedTimeToleranceAfter = kCMTimeZero;
     
     NSError *error = nil;
     CGImageRef cgImage = [imgGenerator copyCGImageAtTime:CMTimeMake(timeMs, 1000) actualTime:nil error:&error];
