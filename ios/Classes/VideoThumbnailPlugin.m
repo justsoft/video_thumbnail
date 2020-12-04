@@ -56,7 +56,7 @@
             NSString *ext = ( (format == 0 ) ? @"jpg" : ( format == 1 ) ? @"png" : @"webp" );
             NSURL *thumbnail = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:ext];
             
-            if( path != nil ) {
+            if( !path && [path isKindOfClass:[NSString class]] && path.length>0) {
                 NSString *lastPart = [thumbnail lastPathComponent];
                 thumbnail = [NSURL fileURLWithPath:path];
                 if( ![[thumbnail pathExtension] isEqualToString:ext] ) {
@@ -96,6 +96,8 @@
     
     imgGenerator.appliesPreferredTrackTransform = TRUE;
     imgGenerator.maximumSize = CGSizeMake((CGFloat)maxw, (CGFloat)maxh);
+    imgGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+    imgGenerator.requestedTimeToleranceAfter = kCMTimeZero;
     
     NSError *error = nil;
     CGImageRef cgImage = [imgGenerator copyCGImageAtTime:CMTimeMake(timeMs, 1000) actualTime:nil error:&error];
