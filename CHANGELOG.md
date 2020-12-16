@@ -1,3 +1,7 @@
+## 0.2.5+1
+
+* Fix the typo in iOS ( Thanks ztsyyb <1194234257@qq.com> )
+
 ## 0.2.5
 
 * Two enhancement
