@@ -41,7 +41,7 @@ final uint8list = await VideoThumbnail.thumbnailData(
 
 **Generate a thumbnail file from video URL**
 ```dart
-final uint8list = await VideoThumbnail.thumbnailFile(
+final fileName = await VideoThumbnail.thumbnailFile(
   video: "https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4",
   thumbnailPath: (await getTemporaryDirectory()).path,
   imageFormat: ImageFormat.WEBP,
