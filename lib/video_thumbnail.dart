@@ -23,9 +23,9 @@ class VideoThumbnail {
   /// If the thumbnailPath is ommited or null, a thumbnail image file will be created under the same folder as the video file.
   /// Speicify the maximum height or width for the thumbnail or 0 for same resolution as the original video.
   /// The lower quality value creates lower quality of the thumbnail image, but it gets ignored for PNG format.
-  static Future<String> thumbnailFile(
-      {@required String video,
-      String thumbnailPath,
+  static Future<String?> thumbnailFile(
+      {required String video,
+      String? thumbnailPath,
       ImageFormat imageFormat = ImageFormat.PNG,
       int maxHeight = 0,
       int maxWidth = 0,
@@ -48,8 +48,8 @@ class VideoThumbnail {
   /// The video can be a local video file, or an URL repreents iOS or Android native supported video format.
   /// Speicify the maximum height or width for the thumbnail or 0 for same resolution as the original video.
   /// The lower quality value creates lower quality of the thumbnail image, but it gets ignored for PNG format.
-  static Future<Uint8List> thumbnailData(
-      {@required String video,
+  static Future<Uint8List?> thumbnailData(
+      {required String video,
       ImageFormat imageFormat = ImageFormat.PNG,
       int maxHeight = 0,
       int maxWidth = 0,
