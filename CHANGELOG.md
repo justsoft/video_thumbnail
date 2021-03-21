@@ -1,3 +1,7 @@
+## 0.3.1
+
+* Fix some null safety warnings, bump version to 0.3.1
+
 ## 0.3.0
 
 * Add the null safety support ( Thanks leynier41@gmail.com ), bump version to 0.3.0

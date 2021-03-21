@@ -8,7 +8,6 @@
 ///
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Support most popular image formats.
@@ -31,15 +30,16 @@ class VideoThumbnail {
       int maxWidth = 0,
       int timeMs = 0,
       int quality = 10}) async {
-    assert(video != null && video.isNotEmpty);
+    assert(video.isNotEmpty);
+    if (video.isEmpty) return null;
     final reqMap = <String, dynamic>{
       'video': video,
       'path': thumbnailPath,
-      'format': imageFormat?.index ?? 0,
-      'maxh': maxHeight ?? 0,
-      'maxw': maxWidth ?? 0,
-      'timeMs': timeMs ?? 0,
-      'quality': quality ?? 10
+      'format': imageFormat.index,
+      'maxh': maxHeight,
+      'maxw': maxWidth,
+      'timeMs': timeMs,
+      'quality': quality
     };
     return await _channel.invokeMethod('file', reqMap);
   }
@@ -55,14 +55,14 @@ class VideoThumbnail {
       int maxWidth = 0,
       int timeMs = 0,
       int quality = 10}) async {
-    assert(video != null && video.isNotEmpty);
+    assert(video.isNotEmpty);
     final reqMap = <String, dynamic>{
       'video': video,
-      'format': imageFormat?.index ?? 0,
-      'maxh': maxHeight ?? 0,
-      'maxw': maxWidth ?? 0,
-      'timeMs': timeMs ?? 0,
-      'quality': quality ?? 10
+      'format': imageFormat.index,
+      'maxh': maxHeight,
+      'maxw': maxWidth,
+      'timeMs': timeMs,
+      'quality': quality
     };
     return await _channel.invokeMethod('data', reqMap);
   }
