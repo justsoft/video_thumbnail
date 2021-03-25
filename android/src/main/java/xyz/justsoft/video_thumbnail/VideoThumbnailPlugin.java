@@ -56,7 +56,7 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
         final int format = (int) args.get("format");
         final int maxh = (int) args.get("maxh");
         final int maxw = (int) args.get("maxw");
-        final int timeMs = (int) args.get("timeMs");
+        final long timeMs = (long) args.get("timeMs");
         final int quality = (int) args.get("quality");
         final String method = call.method;
 
@@ -110,7 +110,7 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
         }
     }
 
-    private byte[] buildThumbnailData(String vidPath, int format, int maxh, int maxw, int timeMs, int quality) {
+    private byte[] buildThumbnailData(String vidPath, int format, int maxh, int maxw, long timeMs, int quality) {
         Log.d(TAG, String.format("buildThumbnailData( format:%d, maxh:%d, maxw:%d, timeMs:%d, quality:%d )", format,
                 maxh, maxw, timeMs, quality));
         Bitmap bitmap = createVideoThumbnail(vidPath, maxh, maxw, timeMs);
@@ -125,7 +125,7 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
         return stream.toByteArray();
     }
 
-    private String buildThumbnailFile(String vidPath, String path, int format, int maxh, int maxw, int timeMs,
+    private String buildThumbnailFile(String vidPath, String path, int format, int maxh, int maxw, long timeMs,
             int quality) {
         Log.d(TAG, String.format("buildThumbnailFile( format:%d, maxh:%d, maxw:%d, timeMs:%d, quality:%d )", format,
                 maxh, maxw, timeMs, quality));
@@ -193,7 +193,7 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
      * @param targetH the max height of the thumbnail
      * @param targetW the max width of the thumbnail
      */
-    public static Bitmap createVideoThumbnail(final String video, int targetH, int targetW, int timeMs) {
+    public static Bitmap createVideoThumbnail(final String video, int targetH, int targetW, long timeMs) {
         Bitmap bitmap = null;
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         try {
