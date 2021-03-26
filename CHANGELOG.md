@@ -1,3 +1,7 @@
+## 0.3.3
+
+* Revert the 0.3.2, bump version to 0.3.3
+
 ## 0.3.1
 
 * Fix some null safety warnings, bump version to 0.3.1
