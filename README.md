@@ -50,5 +50,22 @@ final fileName = await VideoThumbnail.thumbnailFile(
 );
 ```
 
+**Generate a thumbnail file from video Assets declared in pubspec.yaml**
+```dart
+final byteData = await rootBundle.load("assets/my_video.mp4");
+Directory tempDir = await getTemporaryDirectory();
+
+File tempVideo = File("${tempDir.path}/assets/my_video.mp4")
+  ..createSync(recursive: true)
+  ..writeAsBytesSync(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+final fileName = await VideoThumbnail.thumbnailFile(
+  video: tempVideo.path,
+  thumbnailPath: (await getTemporaryDirectory()).path,
+  imageFormat: ImageFormat.PNG,  
+  quality: 100,
+);
+```
+
 ## Notes
 Fork or pull requests are always welcome. Currently it seems have a little performance issue while generating WebP thumbnail by using libwebp under iOS.
