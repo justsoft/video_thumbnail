@@ -1,55 +1,53 @@
 package xyz.justsoft.video_thumbnail;
 
-import android.content.ContentResolver;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Rect;
-import android.media.ExifInterface;
 import android.media.MediaMetadataRetriever;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.ParcelFileDescriptor;
-import android.provider.MediaStore;
 import android.util.Log;
 
-import java.io.FileInputStream;
-import java.io.FileDescriptor;
-import java.io.IOException;
+import androidx.annotation.NonNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /**
  * VideoThumbnailPlugin
  */
-public class VideoThumbnailPlugin implements MethodCallHandler {
+public class VideoThumbnailPlugin implements FlutterPlugin, MethodCallHandler {
     private static String TAG = "ThumbnailPlugin";
     private static final int HIGH_QUALITY_MIN_VAL = 70;
 
-    private ExecutorService executor = Executors.newCachedThreadPool();
+    private ExecutorService executor;
+    private MethodChannel channel;
 
-    /**
-     * Plugin registration.
-     */
-    public static void registerWith(Registrar registrar) {
-        final MethodChannel channel = new MethodChannel(registrar.messenger(), "video_thumbnail");
-        channel.setMethodCallHandler(new VideoThumbnailPlugin());
+    @Override
+    public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+        executor = Executors.newCachedThreadPool();
+        channel = new MethodChannel(binding.getBinaryMessenger(), "plugins.justsoft.xyz/video_thumbnail");
+        channel.setMethodCallHandler(this);
     }
 
     @Override
-    public void onMethodCall(MethodCall call, final Result result) {
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+        channel.setMethodCallHandler(null);
+        channel = null;
+        executor.shutdown();
+        executor = null;
+    }
+
+    @Override
+    public void onMethodCall(@NonNull MethodCall call, @NonNull final Result result) {
         final Map<String, Object> args = call.arguments();
 
         final String video = (String) args.get("video");
@@ -102,11 +100,11 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
         switch (format) {
             default:
             case 0:
-                return new String("jpg");
+                return "jpg";
             case 1:
-                return new String("png");
+                return "png";
             case 2:
-                return new String("webp");
+                return "webp";
         }
     }
 
@@ -126,7 +124,7 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
     }
 
     private String buildThumbnailFile(String vidPath, String path, int format, int maxh, int maxw, int timeMs,
-            int quality) {
+                                      int quality) {
         Log.d(TAG, String.format("buildThumbnailFile( format:%d, maxh:%d, maxw:%d, timeMs:%d, quality:%d )", format,
                 maxh, maxw, timeMs, quality));
         final byte bytes[] = buildThumbnailData(vidPath, format, maxh, maxw, timeMs, quality);

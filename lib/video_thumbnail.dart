@@ -15,7 +15,7 @@ import 'package:flutter/services.dart';
 enum ImageFormat { JPEG, PNG, WEBP }
 
 class VideoThumbnail {
-  static const MethodChannel _channel = const MethodChannel('video_thumbnail');
+  static const MethodChannel _channel = const MethodChannel('plugins.justsoft.xyz/video_thumbnail');
 
   /// Generates a thumbnail file under specified thumbnail folder or given full path and name which matches expected ext.
   /// The video can be a local video file, or an URL repreents iOS or Android native supported video format.
