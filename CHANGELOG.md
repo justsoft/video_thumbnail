@@ -1,3 +1,8 @@
+## 0.4.3
+
+* Migrate to flutter embedding v2 for Android ( Thanks wangbo4020 )
+* Bump to 0.4.3
+
 ## 0.3.3
 
 * Revert the 0.3.2, bump version to 0.3.3
