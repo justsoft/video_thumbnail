@@ -9,7 +9,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -196,9 +200,9 @@ public class VideoThumbnailPlugin implements FlutterPlugin, MethodCallHandler {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         try {
             if (video.startsWith("/")) {
-                retriever.setDataSource(video);
+                setDataSource(video, retriever);
             } else if (video.startsWith("file://")) {
-                retriever.setDataSource(video.substring(7));
+                setDataSource(video.substring(7), retriever);
             } else {
                 retriever.setDataSource(video, new HashMap<String, String>());
             }
@@ -229,6 +233,8 @@ public class VideoThumbnailPlugin implements FlutterPlugin, MethodCallHandler {
             ex.printStackTrace();
         } catch (RuntimeException ex) {
             ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         } finally {
             try {
                 retriever.release();
@@ -238,5 +244,11 @@ public class VideoThumbnailPlugin implements FlutterPlugin, MethodCallHandler {
         }
 
         return bitmap;
+    }
+
+    private static void setDataSource(String video, MediaMetadataRetriever retriever) throws IOException {
+        File videoFile = new File(video);
+        FileInputStream inputStream = new FileInputStream(videoFile.getAbsolutePath());
+        retriever.setDataSource(inputStream.getFD());
     }
 }
