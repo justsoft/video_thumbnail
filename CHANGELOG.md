@@ -1,3 +1,11 @@
+## 0.4.6
+
+* Thanks for julek-kal, Nailer, nilsreichardt
+* fix setDataSource for Android 11
+* Fetch closest frame instead of closest keyframe
+* Fix typo specify in video_thumbnail.dart
+* Change version and bump to 0.4.6
+
 ## 0.4.3
 
 * Migrate to flutter embedding v2 for Android ( Thanks wangbo4020 )
