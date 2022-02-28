@@ -20,7 +20,7 @@ class VideoThumbnail {
   /// Generates a thumbnail file under specified thumbnail folder or given full path and name which matches expected ext.
   /// The video can be a local video file, or an URL repreents iOS or Android native supported video format.
   /// If the thumbnailPath is ommited or null, a thumbnail image file will be created under the same folder as the video file.
-  /// Speicify the maximum height or width for the thumbnail or 0 for same resolution as the original video.
+  /// Specify the maximum height or width for the thumbnail or 0 for same resolution as the original video.
   /// The lower quality value creates lower quality of the thumbnail image, but it gets ignored for PNG format.
   static Future<String?> thumbnailFile(
       {required String video,
@@ -46,7 +46,7 @@ class VideoThumbnail {
 
   /// Generates a thumbnail image data in memory as UInt8List, it can be easily used by Image.memory(...).
   /// The video can be a local video file, or an URL repreents iOS or Android native supported video format.
-  /// Speicify the maximum height or width for the thumbnail or 0 for same resolution as the original video.
+  /// Specify the maximum height or width for the thumbnail or 0 for same resolution as the original video.
   /// The lower quality value creates lower quality of the thumbnail image, but it gets ignored for PNG format.
   static Future<Uint8List?> thumbnailData(
       {required String video,
