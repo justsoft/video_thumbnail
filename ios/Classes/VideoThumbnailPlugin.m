@@ -92,7 +92,7 @@
     
     
     AVURLAsset *asset=[[AVURLAsset alloc] initWithURL:url options:nil];
-    [asset addValue:"Referer" forHTTPHeaderField:@"https://mobile.gredu.co/*"];
+    [asset addValue:@"Referer" forHTTPHeaderField:@"https://mobile.gredu.co/*"];
 
     AVAssetImageGenerator *imgGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
     
