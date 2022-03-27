@@ -89,9 +89,10 @@
 
 + (NSData *)generateThumbnail:(NSURL*)url format:(int)format maxHeight:(int)maxh maxWidth:(int)maxw timeMs:(int)timeMs quality:(int)quality {
     
-    
-    
-    AVURLAsset *asset=[[AVURLAsset alloc] initWithURL:url options:nil];
+    NSMutableDictionary * headers = [NSMutableDictionary dictionary];
+    [headers setObject:@"https://mobile.gredu.co/*" forKey:@"Referer"]; // adds @"Referer"
+
+    AVURLAsset *asset=[[AVURLAsset alloc] initWithURL:url options:@{@"AVURLAssetHTTPHeaderFieldsKey" : headers}];
     AVAssetImageGenerator *imgGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
     
     imgGenerator.appliesPreferredTrackTransform = TRUE;
