@@ -1,3 +1,9 @@
+## 0.5.0
+
+* Make the `thumbnailFile` to save image in the cache folder if the `path` is `null` for not file based video
+* Add HTTP headers for not file based video
+* Bump to 0.5.0
+
 ## 0.4.6
 
 * Thanks for julek-kal, Nailer, nilsreichardt

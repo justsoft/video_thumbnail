@@ -28,6 +28,9 @@
     NSDictionary *_args = call.arguments;
     
     NSString *file = _args[@"video"];
+
+    NSMutableDictionary * headers = _args[@"headers"];
+
     NSString *path = _args[@"path"];
     int format = [[_args objectForKey:@"format"] intValue];
     int maxh = [[_args objectForKey:@"maxh"] intValue];
@@ -35,24 +38,27 @@
     int timeMs = [[_args objectForKey:@"timeMs"] intValue];
     int quality = [[_args objectForKey:@"quality"] intValue];
     _args = nil;
+    bool isLocalFile = [file hasPrefix:@"file://"] || [file hasPrefix:@"/"];
     
     NSURL *url = [file hasPrefix:@"file://"] ? [NSURL fileURLWithPath:[file substringFromIndex:7]] :
       ( [file hasPrefix:@"/"] ? [NSURL fileURLWithPath:file] : [NSURL URLWithString:file] );
     
     if ([@"data" isEqualToString:call.method]) {
-        
+
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             //Background Thread
-            result([VideoThumbnailPlugin generateThumbnail:url format:format maxHeight:maxh maxWidth:maxw timeMs:timeMs quality:quality]);
-
+            result([VideoThumbnailPlugin generateThumbnail:url headers:headers format:format maxHeight:maxh maxWidth:maxw timeMs:timeMs quality:quality]);
         });
         
     } else if ([@"file" isEqualToString:call.method]) {
+        if( [path isEqual:[NSNull null]] && !isLocalFile ) {
+            path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+        }
         
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
             //Background Thread
            
-            NSData *data = [VideoThumbnailPlugin generateThumbnail:url format:format maxHeight:maxh maxWidth:maxw timeMs:timeMs quality:quality];
+            NSData *data = [VideoThumbnailPlugin generateThumbnail:url headers:headers format:format maxHeight:maxh maxWidth:maxw timeMs:timeMs quality:quality];
             NSString *ext = ( (format == 0 ) ? @"jpg" : ( format == 1 ) ? @"png" : @"webp" );
             NSURL *thumbnail = [[url URLByDeletingPathExtension] URLByAppendingPathExtension:ext];
 
@@ -87,12 +93,9 @@
     }
 }
 
-+ (NSData *)generateThumbnail:(NSURL*)url format:(int)format maxHeight:(int)maxh maxWidth:(int)maxw timeMs:(int)timeMs quality:(int)quality {
++ (NSData *)generateThumbnail:(NSURL*)url headers:(NSMutableDictionary*)headers  format:(int)format maxHeight:(int)maxh maxWidth:(int)maxw timeMs:(int)timeMs quality:(int)quality {
     
-    NSMutableDictionary * headers = [NSMutableDictionary dictionary];
-    [headers setObject:@"https://mobile.gredu.co/*" forKey:@"Referer"]; // adds @"Referer"
-
-    AVURLAsset *asset=[[AVURLAsset alloc] initWithURL:url options:@{@"AVURLAssetHTTPHeaderFieldsKey" : headers}];
+    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:url options: [headers isEqual:[NSNull null]] ? nil : @{@"AVURLAssetHTTPHeaderFieldsKey" : headers}];
     AVAssetImageGenerator *imgGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
     
     imgGenerator.appliesPreferredTrackTransform = TRUE;

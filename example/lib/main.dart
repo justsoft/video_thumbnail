@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:io';
 
 import 'package:video_thumbnail/video_thumbnail.dart';
@@ -56,6 +53,10 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
   if (r.thumbnailPath != null) {
     final thumbnailPath = await VideoThumbnail.thumbnailFile(
         video: r.video,
+        headers: {
+          "USERHEADER1": "user defined header1",
+          "USERHEADER2": "user defined header2",
+        },
         thumbnailPath: r.thumbnailPath,
         imageFormat: r.imageFormat,
         maxHeight: r.maxHeight,
@@ -70,6 +71,10 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
   } else {
     bytes = await VideoThumbnail.thumbnailData(
         video: r.video,
+        headers: {
+          "USERHEADER1": "user defined header1",
+          "USERHEADER2": "user defined header2",
+        },
         imageFormat: r.imageFormat,
         maxHeight: r.maxHeight,
         maxWidth: r.maxWidth,

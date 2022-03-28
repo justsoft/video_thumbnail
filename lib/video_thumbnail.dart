@@ -7,7 +7,6 @@
 ///  * [video_thumbnail](https://pub.dev/packages/video_thumbnail)
 ///
 import 'dart:async';
-import 'dart:collection';
 import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
@@ -17,7 +16,8 @@ import 'package:flutter/services.dart';
 enum ImageFormat { JPEG, PNG, WEBP }
 
 class VideoThumbnail {
-  static const MethodChannel _channel = const MethodChannel('plugins.justsoft.xyz/video_thumbnail');
+  static const MethodChannel _channel =
+      const MethodChannel('plugins.justsoft.xyz/video_thumbnail');
 
   /// Generates a thumbnail file under specified thumbnail folder or given full path and name which matches expected ext.
   /// The video can be a local video file, or an URL repreents iOS or Android native supported video format.
@@ -26,6 +26,7 @@ class VideoThumbnail {
   /// The lower quality value creates lower quality of the thumbnail image, but it gets ignored for PNG format.
   static Future<String?> thumbnailFile(
       {required String video,
+      Map<String, String>? headers,
       String? thumbnailPath,
       ImageFormat imageFormat = ImageFormat.PNG,
       int maxHeight = 0,
@@ -36,6 +37,7 @@ class VideoThumbnail {
     if (video.isEmpty) return null;
     final reqMap = <String, dynamic>{
       'video': video,
+      'headers': headers,
       'path': thumbnailPath,
       'format': imageFormat.index,
       'maxh': maxHeight,
@@ -52,7 +54,7 @@ class VideoThumbnail {
   /// The lower quality value creates lower quality of the thumbnail image, but it gets ignored for PNG format.
   static Future<Uint8List?> thumbnailData({
     required String video,
-    Map<String, dynamic>? headers,
+    Map<String, String>? headers,
     ImageFormat imageFormat = ImageFormat.PNG,
     int maxHeight = 0,
     int maxWidth = 0,
