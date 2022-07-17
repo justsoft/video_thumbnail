@@ -1,3 +1,8 @@
+## 0.5.1
+* Add IOException for Android (Thanks k1zerX)
+* Fix boolean value issue and enlarge the time window (Thanks niketatjombay) 
+* Bump to 0.5.1
+
 ## 0.5.0
 
 * Make the `thumbnailFile` to save image in the cache folder if the `path` is `null` for not file based video
