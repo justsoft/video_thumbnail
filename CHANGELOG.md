@@ -1,3 +1,7 @@
+## 0.5.2
+* Revert the IOException change which causes compiling error on new Android Studio
+* Bump to 0.5.2
+
 ## 0.5.1
 * Add IOException for Android (Thanks k1zerX)
 * Fix boolean value issue and enlarge the time window (Thanks niketatjombay) 
