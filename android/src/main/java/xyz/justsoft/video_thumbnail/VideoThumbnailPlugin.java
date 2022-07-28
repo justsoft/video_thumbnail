@@ -251,7 +251,7 @@ public class VideoThumbnailPlugin implements FlutterPlugin, MethodCallHandler {
         } finally {
             try {
                 retriever.release();
-            } catch (RuntimeException ex) {
+            } catch (RuntimeException | IOException ex) {
                 ex.printStackTrace();
             }
         }
