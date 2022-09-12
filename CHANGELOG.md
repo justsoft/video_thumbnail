@@ -1,3 +1,12 @@
+## 0.5.3
+* Thanks Ajb Coder for:
+  -   Fix: IOException on runtime
+  -   Fix: IOException
+  -   Added IOException to catch with RuntimeException
+  -   Update dart min sdk to 2.16.0
+  -   Upgrade the android compileSdkVersion to 33
+* Bump to 0.5.3
+
 ## 0.5.2
 * Revert the IOException change which causes compiling error on new Android Studio
 * Bump to 0.5.2
