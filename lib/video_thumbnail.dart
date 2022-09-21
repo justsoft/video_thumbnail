@@ -32,7 +32,9 @@ class VideoThumbnail {
       int maxHeight = 0,
       int maxWidth = 0,
       int timeMs = 0,
-      int quality = 10}) async {
+      int quality = 10,
+        String? fileName,
+      }) async {
     assert(video.isNotEmpty);
     if (video.isEmpty) return null;
     final reqMap = <String, dynamic>{
@@ -43,7 +45,8 @@ class VideoThumbnail {
       'maxh': maxHeight,
       'maxw': maxWidth,
       'timeMs': timeMs,
-      'quality': quality
+      'quality': quality,
+      'filename' : fileName
     };
     return await _channel.invokeMethod('file', reqMap);
   }
