@@ -1,3 +1,8 @@
+## 0.5.4
+* Thanks otopba for:
+  -   Fix: Migrate jCenter to mavenCentral
+* Bump to 0.5.3
+
 ## 0.5.3
 * Thanks Ajb Coder for:
   -   Fix: IOException on runtime
