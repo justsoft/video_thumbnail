@@ -1,0 +1,31 @@
+name: video_thumbnail_web
+description: The web implementation of video_thumbnail.
+version: 1.0.0
+homepage: https://github.com/justsoft
+repository: https://github.com/justsoft/video_thumbnail/tree/master/video_thumbnail_web
+issue_tracker: https://github.com/justsoft/video_thumbnail/issues
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.4
+  # TODO(maRci002): DO NOT MERGE!!!
+  video_thumbnail_platform_interface:
+    path: ../video_thumbnail_platform_interface
+  cross_file: ^0.3.3+4
+
+dev_dependencies:
+  lints: ^2.0.0
+
+flutter:
+  plugin:
+    implements: video_thumbnail
+    platforms:
+      web:
+        pluginClass: VideoThumbnailWeb
+        fileName: video_thumbnail_web.dart

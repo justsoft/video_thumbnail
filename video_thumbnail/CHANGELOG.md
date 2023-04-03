@@ -1,3 +1,9 @@
+## 0.6.0
+* Thanks for maRci002
+  - **Breaking change**: `VideoThumbnail.thumbnailFile` now returns `XFile?` instead of `String?`
+  - migrating to use platform interface
+  - add web implementation
+
 ## 0.5.3
 * Thanks Ajb Coder for:
   -   Fix: IOException on runtime
