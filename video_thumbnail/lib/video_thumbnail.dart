@@ -12,6 +12,7 @@ import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
 import 'package:video_thumbnail_platform_interface/video_thumbnail_platform_interface.dart';
 
+export 'package:cross_file/cross_file.dart' show XFile;
 export 'package:video_thumbnail_platform_interface/video_thumbnail_platform_interface.dart'
     show ImageFormat;
 
