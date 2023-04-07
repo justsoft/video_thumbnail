@@ -26,7 +26,7 @@ abstract class VideoThumbnailPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<XFile?> thumbnailFile({
+  Future<XFile> thumbnailFile({
     required String video,
     required Map<String, String>? headers,
     required String? thumbnailPath,
@@ -39,7 +39,7 @@ abstract class VideoThumbnailPlatform extends PlatformInterface {
     throw UnimplementedError('thumbnailFile() has not been implemented.');
   }
 
-  Future<Uint8List?> thumbnailData({
+  Future<Uint8List> thumbnailData({
     required String video,
     required Map<String, String>? headers,
     required ImageFormat imageFormat,

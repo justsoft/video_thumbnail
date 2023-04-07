@@ -10,7 +10,7 @@ class MethodChannelVideoThumbnail extends VideoThumbnailPlatform {
       MethodChannel('plugins.justsoft.xyz/video_thumbnail');
 
   @override
-  Future<XFile?> thumbnailFile({
+  Future<XFile> thumbnailFile({
     required String video,
     required Map<String, String>? headers,
     required String? thumbnailPath,
@@ -32,11 +32,11 @@ class MethodChannelVideoThumbnail extends VideoThumbnailPlatform {
     };
 
     final path = await methodChannel.invokeMethod<String>('file', reqMap);
-    return path == null ? null : XFile(path);
+    return XFile(path!);
   }
 
   @override
-  Future<Uint8List?> thumbnailData({
+  Future<Uint8List> thumbnailData({
     required String video,
     required Map<String, String>? headers,
     required ImageFormat imageFormat,
@@ -44,7 +44,7 @@ class MethodChannelVideoThumbnail extends VideoThumbnailPlatform {
     required int maxWidth,
     required int timeMs,
     required int quality,
-  }) {
+  }) async {
     final reqMap = <String, dynamic>{
       'video': video,
       'headers': headers,
@@ -54,6 +54,7 @@ class MethodChannelVideoThumbnail extends VideoThumbnailPlatform {
       'timeMs': timeMs,
       'quality': quality,
     };
-    return methodChannel.invokeMethod('data', reqMap);
+    final bytes = await methodChannel.invokeMethod('data', reqMap);
+    return bytes!;
   }
 }

@@ -13,10 +13,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # TODO(maRci002): DO NOT MERGE!!!
+  # TODO(maRci002): remove local path when new package is published
   video_thumbnail_platform_interface:
     path: ../video_thumbnail_platform_interface
-  # TODO(maRci002): DO NOT MERGE!!!
+  # TODO(maRci002): remove local path when new package is published
   video_thumbnail_web:
     path: ../video_thumbnail_web
   cross_file: ^0.3.3+4

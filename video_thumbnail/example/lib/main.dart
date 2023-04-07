@@ -77,9 +77,9 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
 
     debugPrint('thumbnail file is located: $thumbnailFile');
 
-    bytes = await thumbnailFile!.readAsBytes();
+    bytes = await thumbnailFile.readAsBytes();
   } else {
-    bytes = (await VideoThumbnail.thumbnailData(
+    bytes = await VideoThumbnail.thumbnailData(
       video: r.video,
       headers: r.attachHeaders
           ? const {
@@ -92,7 +92,7 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
       maxWidth: r.maxWidth,
       timeMs: r.timeMs,
       quality: r.quality,
-    ))!;
+    );
   }
 
   final imageDataSize = bytes.length;

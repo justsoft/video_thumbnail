@@ -40,7 +40,7 @@ class VideoThumbnailWeb extends VideoThumbnailPlatform {
   }
 
   @override
-  Future<XFile?> thumbnailFile({
+  Future<XFile> thumbnailFile({
     required String video,
     required Map<String, String>? headers,
     required String? thumbnailPath,
@@ -64,7 +64,7 @@ class VideoThumbnailWeb extends VideoThumbnailPlatform {
   }
 
   @override
-  Future<Uint8List?> thumbnailData({
+  Future<Uint8List> thumbnailData({
     required String video,
     required Map<String, String>? headers,
     required ImageFormat imageFormat,
