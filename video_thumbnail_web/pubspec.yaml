@@ -14,9 +14,13 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   plugin_platform_interface: ^2.1.4
-  # TODO(maRci002): remove local path when new package is published
+  # TODO(maRci002): remove git path when new package is published
   video_thumbnail_platform_interface:
-    path: ../video_thumbnail_platform_interface
+    # path: ../video_thumbnail_platform_interface
+    git:
+      url: git@github.com:maRci002/video_thumbnail.git
+      ref: feat-web_implementation
+      path: video_thumbnail_platform_interface
   cross_file: ^0.3.3+4
 
 dev_dependencies:

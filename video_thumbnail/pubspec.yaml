@@ -13,12 +13,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # TODO(maRci002): remove local path when new package is published
+  # TODO(maRci002): remove git path when new package is published
   video_thumbnail_platform_interface:
-    path: ../video_thumbnail_platform_interface
-  # TODO(maRci002): remove local path when new package is published
+    # path: ../video_thumbnail_platform_interface
+    git:
+      url: git@github.com:maRci002/video_thumbnail.git
+      ref: feat-web_implementation
+      path: video_thumbnail_platform_interface
+  # TODO(maRci002): remove git path when new package is published
   video_thumbnail_web:
-    path: ../video_thumbnail_web
+    # path: ../video_thumbnail_web
+    git:
+      url: git@github.com:maRci002/video_thumbnail.git
+      ref: feat-web_implementation
+      path: video_thumbnail_web
   cross_file: ^0.3.3+4
 
 dev_dependencies:
