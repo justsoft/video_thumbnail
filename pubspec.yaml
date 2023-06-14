@@ -6,6 +6,18 @@ homepage: https://github.com/justsoft
 repository: https://github.com/justsoft/video_thumbnail
 issue_tracker: https://github.com/justsoft/video_thumbnail/issues
 
+screenshots:
+  - description: 'Time line'
+    path: screenshots/thumbnail_time_line.png
+  - description: 'video file'
+    path: screenshots/video_file.jpg
+  - description: 'video url'
+    path: screenshots/video_url.jpg
+
+topics:
+  - video
+  - thumbnail
+
 environment:
   sdk: '>=2.16.0 <3.0.0'
   flutter: ">=1.10.0"

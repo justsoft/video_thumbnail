@@ -9,15 +9,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  image_picker: ^0.8.0+4
+  path_provider: ^2.0.15
+  video_thumbnail:
+    path: ../
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  image_picker: '>=0.6.2 <2.0.0'
-  path_provider: ^1.6.0
-  video_thumbnail:
-    path: ../
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
