@@ -1,12 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'dart:io';
-
-import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 void main() => runApp(MyApp());
 
@@ -314,6 +313,7 @@ class _DemoHomeState extends State<DemoHome> {
         ),
       )
     ];
+    double pr = MediaQuery.of(context).devicePixelRatio;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Thumbnail Plugin example'),
@@ -336,12 +336,27 @@ class _DemoHomeState extends State<DemoHome> {
                 focusNode: _editNode,
                 keyboardType: TextInputType.url,
                 textInputAction: TextInputAction.done,
-                onEditingComplete: () {
-                  _editNode.unfocus();
-                },
+                onEditingComplete: () => _editNode.unfocus(),
               ),
             ),
-            for (var i in _settings) i,
+            ..._settings,
+            Container(
+              height: 60,
+              color: Colors.grey[200],
+              margin: EdgeInsets.only(bottom: 10),
+              child: ListView.builder(
+                itemExtent: 30,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) => Image(
+                  image: VideoThumbnailImage(
+                    _video.text,
+                    timeMs: (100 * index) % 3000,
+                    maxWidth: (30 * pr).toInt(),
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
             Expanded(
               child: Container(
                 color: Colors.grey[300],
@@ -369,7 +384,7 @@ class _DemoHomeState extends State<DemoHome> {
                   )
                 ],
               ),
-              for (var i in _settings) i,
+              ..._settings,
             ],
           ),
         ),
@@ -379,11 +394,9 @@ class _DemoHomeState extends State<DemoHome> {
           children: <Widget>[
             FloatingActionButton(
               onPressed: () async {
-                File video =
-                    await ImagePicker.pickVideo(source: ImageSource.camera);
-                setState(() {
-                  _video.text = video.path;
-                });
+                final video =
+                    await ImagePicker().getVideo(source: ImageSource.camera);
+                setState(() => _video.text = video.path);
               },
               child: Icon(Icons.videocam),
               tooltip: "Capture a video",
@@ -393,11 +406,9 @@ class _DemoHomeState extends State<DemoHome> {
             ),
             FloatingActionButton(
               onPressed: () async {
-                File video =
-                    await ImagePicker.pickVideo(source: ImageSource.gallery);
-                setState(() {
-                  _video.text = video?.path;
-                });
+                final video =
+                    await ImagePicker().getVideo(source: ImageSource.gallery);
+                setState(() => _video.text = video?.path);
               },
               child: Icon(Icons.local_movies),
               tooltip: "Pick a video",
