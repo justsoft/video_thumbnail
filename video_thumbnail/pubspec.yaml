@@ -1,9 +1,9 @@
 name: video_thumbnail
 description: A flutter plugin for creating a thumbnail from a local video file or from a video URL.
-version: 0.5.3
-# author: John Zhong <john138@gmail.com>, Tairs Rzajevs <tairs.rzayevs@chi.lv>, Grigori <jlavyan@gmail.com>, Hafeez Ahmed <hahmed@fusionsd.com.au>, Leynier <leynier41@gmail.com>, Andreas Petrov, julek-kal, Nils Reichardt, Ajb Coder 
+version: 0.6.0
+# author: John Zhong <john138@gmail.com>, Tairs Rzajevs <tairs.rzayevs@chi.lv>, Grigori <jlavyan@gmail.com>, Hafeez Ahmed <hahmed@fusionsd.com.au>, Leynier <leynier41@gmail.com>, Andreas Petrov, julek-kal, Nils Reichardt, Ajb Coder, Márton Matuz <matuzmarci@gmail.com>
 homepage: https://github.com/justsoft
-repository: https://github.com/justsoft/video_thumbnail
+repository: https://github.com/justsoft/video_thumbnail/tree/master/video_thumbnail
 issue_tracker: https://github.com/justsoft/video_thumbnail/issues
 
 environment:
@@ -13,10 +13,26 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # TODO(maRci002): remove git path when new package is published
+  video_thumbnail_platform_interface:
+    # path: ../video_thumbnail_platform_interface
+    git:
+      url: https://github.com/maRci002/video_thumbnail.git
+      ref: feat-web_implementation
+      path: video_thumbnail_platform_interface
+  # TODO(maRci002): remove git path when new package is published
+  video_thumbnail_web:
+    # path: ../video_thumbnail_web
+    git:
+      url: https://github.com/maRci002/video_thumbnail.git
+      ref: feat-web_implementation
+      path: video_thumbnail_web
+  cross_file: ^0.3.3+4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -34,6 +50,8 @@ flutter:
         pluginClass: VideoThumbnailPlugin
       ios:
         pluginClass: VideoThumbnailPlugin
+      web:
+        default_package: video_thumbnail_web
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

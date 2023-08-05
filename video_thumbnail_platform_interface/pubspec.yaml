@@ -1,0 +1,18 @@
+name: video_thumbnail_platform_interface
+description: A common platform interface for the video_thumbnail plugin.
+version: 1.0.0
+homepage: https://github.com/justsoft
+repository: https://github.com/justsoft/video_thumbnail/tree/master/video_thumbnail_platform_interface
+issue_tracker: https://github.com/justsoft/video_thumbnail/issues
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.4
+  cross_file: ^0.3.3+4
+
+dev_dependencies:
+  lints: ^2.0.0
