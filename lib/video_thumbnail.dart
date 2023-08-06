@@ -27,7 +27,7 @@ class VideoThumbnail {
   static Future<String?> thumbnailFile(
       {required String video,
       Map<String, String>? headers,
-      String? thumbnailPath,
+      required String thumbnailPath,
       ImageFormat imageFormat = ImageFormat.PNG,
       int maxHeight = 0,
       int maxWidth = 0,
