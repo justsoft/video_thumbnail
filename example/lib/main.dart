@@ -21,15 +21,15 @@ class MyApp extends StatelessWidget {
 
 class ThumbnailRequest {
   final String video;
-  final String thumbnailPath;
-  final ImageFormat imageFormat;
-  final int maxHeight;
-  final int maxWidth;
-  final int timeMs;
-  final int quality;
+  final String? thumbnailPath;
+  final ImageFormat? imageFormat;
+  final int? maxHeight;
+  final int? maxWidth;
+  final int? timeMs;
+  final int? quality;
 
   const ThumbnailRequest(
-      {this.video,
+      {required this.video,
       this.thumbnailPath,
       this.imageFormat,
       this.maxHeight,
@@ -43,30 +43,34 @@ class ThumbnailResult {
   final int dataSize;
   final int height;
   final int width;
-  const ThumbnailResult({this.image, this.dataSize, this.height, this.width});
+  const ThumbnailResult(
+      {required this.image,
+      required this.dataSize,
+      required this.height,
+      required this.width});
 }
 
 Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
   //WidgetsFlutterBinding.ensureInitialized();
-  Uint8List bytes;
+  Uint8List? bytes;
   final Completer<ThumbnailResult> completer = Completer();
   if (r.thumbnailPath != null) {
-    final thumbnailPath = await VideoThumbnail.thumbnailFile(
+    final String? thumbnailPath = await VideoThumbnail.thumbnailFile(
         video: r.video,
         headers: {
           "USERHEADER1": "user defined header1",
           "USERHEADER2": "user defined header2",
         },
         thumbnailPath: r.thumbnailPath,
-        imageFormat: r.imageFormat,
-        maxHeight: r.maxHeight,
-        maxWidth: r.maxWidth,
-        timeMs: r.timeMs,
-        quality: r.quality);
+        imageFormat: r.imageFormat ?? ImageFormat.PNG,
+        maxHeight: r.maxHeight ?? 0,
+        maxWidth: r.maxWidth ?? 0,
+        timeMs: r.timeMs ?? 0,
+        quality: r.quality ?? 10);
 
     print("thumbnail file is located: $thumbnailPath");
 
-    final file = File(thumbnailPath);
+    final file = File(thumbnailPath!);
     bytes = file.readAsBytesSync();
   } else {
     bytes = await VideoThumbnail.thumbnailData(
@@ -75,34 +79,38 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
           "USERHEADER1": "user defined header1",
           "USERHEADER2": "user defined header2",
         },
-        imageFormat: r.imageFormat,
-        maxHeight: r.maxHeight,
-        maxWidth: r.maxWidth,
-        timeMs: r.timeMs,
-        quality: r.quality);
+        imageFormat: r.imageFormat ?? ImageFormat.PNG,
+        maxHeight: r.maxHeight ?? 0,
+        maxWidth: r.maxWidth ?? 0,
+        timeMs: r.timeMs ?? 0,
+        quality: r.quality ?? 10);
   }
 
-  int _imageDataSize = bytes.length;
+  int _imageDataSize = bytes!.length;
   print("image size: $_imageDataSize");
 
   final _image = Image.memory(bytes);
-  _image.image
-      .resolve(ImageConfiguration())
-      .addListener(ImageStreamListener((ImageInfo info, bool _) {
-    completer.complete(ThumbnailResult(
-      image: _image,
-      dataSize: _imageDataSize,
-      height: info.image.height,
-      width: info.image.width,
-    ));
-  }));
+  _image.image.resolve(ImageConfiguration()).addListener(
+    ImageStreamListener(
+      (ImageInfo info, bool _) {
+        completer.complete(
+          ThumbnailResult(
+            image: _image,
+            dataSize: _imageDataSize,
+            height: info.image.height,
+            width: info.image.width,
+          ),
+        );
+      },
+    ),
+  );
   return completer.future;
 }
 
 class GenThumbnailImage extends StatefulWidget {
   final ThumbnailRequest thumbnailRequest;
 
-  const GenThumbnailImage({Key key, this.thumbnailRequest}) : super(key: key);
+  const GenThumbnailImage({super.key, required this.thumbnailRequest});
 
   @override
   _GenThumbnailImageState createState() => _GenThumbnailImageState();
@@ -183,9 +191,9 @@ class _DemoHomeState extends State<DemoHome> {
   int _sizeW = 0;
   int _timeMs = 0;
 
-  GenThumbnailImage _futreImage;
+  GenThumbnailImage? _futreImage;
 
-  String _tempDir;
+  String? _tempDir;
 
   @override
   void initState() {
@@ -275,7 +283,10 @@ class _DemoHomeState extends State<DemoHome> {
                       groupValue: _format,
                       value: ImageFormat.JPEG,
                       onChanged: (v) => setState(() {
-                        _format = v;
+                        if (v != null) {
+                          _format = v;
+                        }
+
                         _editNode.unfocus();
                       }),
                     ),
@@ -289,7 +300,9 @@ class _DemoHomeState extends State<DemoHome> {
                       groupValue: _format,
                       value: ImageFormat.PNG,
                       onChanged: (v) => setState(() {
-                        _format = v;
+                        if (v != null) {
+                          _format = v;
+                        }
                         _editNode.unfocus();
                       }),
                     ),
@@ -303,7 +316,9 @@ class _DemoHomeState extends State<DemoHome> {
                       groupValue: _format,
                       value: ImageFormat.WEBP,
                       onChanged: (v) => setState(() {
-                        _format = v;
+                        if (v != null) {
+                          _format = v;
+                        }
                         _editNode.unfocus();
                       }),
                     ),
@@ -315,134 +330,142 @@ class _DemoHomeState extends State<DemoHome> {
       )
     ];
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Thumbnail Plugin example'),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  filled: true,
-                  isDense: true,
-                  labelText: "Video URI",
-                ),
-                maxLines: null,
-                controller: _video,
-                focusNode: _editNode,
-                keyboardType: TextInputType.url,
-                textInputAction: TextInputAction.done,
-                onEditingComplete: () {
-                  _editNode.unfocus();
-                },
+      appBar: AppBar(
+        title: const Text('Thumbnail Plugin example'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                filled: true,
+                isDense: true,
+                labelText: "Video URI",
               ),
+              maxLines: null,
+              controller: _video,
+              focusNode: _editNode,
+              keyboardType: TextInputType.url,
+              textInputAction: TextInputAction.done,
+              onEditingComplete: () {
+                _editNode.unfocus();
+              },
+            ),
+          ),
+          for (var i in _settings) i,
+          Expanded(
+            child: Container(
+              color: Colors.grey[300],
+              child: Scrollbar(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    (_futreImage != null) ? _futreImage! : SizedBox(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      drawer: Drawer(
+        child: Column(
+          children: <Widget>[
+            AppBar(
+              title: const Text("Settings"),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => Navigator.pop(context),
+                )
+              ],
             ),
             for (var i in _settings) i,
-            Expanded(
-              child: Container(
-                color: Colors.grey[300],
-                child: Scrollbar(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      (_futreImage != null) ? _futreImage : SizedBox(),
-                    ],
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
-        drawer: Drawer(
-          child: Column(
-            children: <Widget>[
-              AppBar(
-                title: const Text("Settings"),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () => Navigator.pop(context),
-                  )
-                ],
-              ),
-              for (var i in _settings) i,
-            ],
-          ),
-        ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            FloatingActionButton(
-              onPressed: () async {
-                File video =
-                    await ImagePicker.pickVideo(source: ImageSource.camera);
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          FloatingActionButton(
+            onPressed: () async {
+              XFile? video =
+                  await ImagePicker().pickVideo(source: ImageSource.camera);
+              if (video != null) {
                 setState(() {
                   _video.text = video.path;
                 });
-              },
-              child: Icon(Icons.videocam),
-              tooltip: "Capture a video",
-            ),
-            const SizedBox(
-              width: 5.0,
-            ),
-            FloatingActionButton(
-              onPressed: () async {
-                File video =
-                    await ImagePicker.pickVideo(source: ImageSource.gallery);
+              }
+            },
+            child: Icon(Icons.videocam),
+            tooltip: "Capture a video",
+          ),
+          const SizedBox(
+            width: 5.0,
+          ),
+          FloatingActionButton(
+            onPressed: () async {
+              XFile? video =
+                  await ImagePicker().pickVideo(source: ImageSource.gallery);
+              if (video != null) {
                 setState(() {
-                  _video.text = video?.path;
+                  _video.text = video.path;
                 });
-              },
-              child: Icon(Icons.local_movies),
-              tooltip: "Pick a video",
-            ),
-            const SizedBox(
-              width: 20.0,
-            ),
-            FloatingActionButton(
-              tooltip: "Generate a data of thumbnail",
-              onPressed: () async {
-                setState(() {
+              }
+            },
+            child: Icon(Icons.local_movies),
+            tooltip: "Pick a video",
+          ),
+          const SizedBox(
+            width: 20.0,
+          ),
+          FloatingActionButton(
+            tooltip: "Generate a data of thumbnail",
+            onPressed: () async {
+              setState(() {
+                _futreImage = GenThumbnailImage(
+                    thumbnailRequest: ThumbnailRequest(
+                        video: _video.text,
+                        thumbnailPath: null,
+                        imageFormat: _format,
+                        maxHeight: _sizeH,
+                        maxWidth: _sizeW,
+                        timeMs: _timeMs,
+                        quality: _quality));
+              });
+            },
+            child: const Text("Data"),
+          ),
+          const SizedBox(
+            width: 5.0,
+          ),
+          FloatingActionButton(
+            tooltip: "Generate a file of thumbnail",
+            onPressed: () async {
+              setState(
+                () {
                   _futreImage = GenThumbnailImage(
-                      thumbnailRequest: ThumbnailRequest(
-                          video: _video.text,
-                          thumbnailPath: null,
-                          imageFormat: _format,
-                          maxHeight: _sizeH,
-                          maxWidth: _sizeW,
-                          timeMs: _timeMs,
-                          quality: _quality));
-                });
-              },
-              child: const Text("Data"),
-            ),
-            const SizedBox(
-              width: 5.0,
-            ),
-            FloatingActionButton(
-              tooltip: "Generate a file of thumbnail",
-              onPressed: () async {
-                setState(() {
-                  _futreImage = GenThumbnailImage(
-                      thumbnailRequest: ThumbnailRequest(
-                          video: _video.text,
-                          thumbnailPath: _tempDir,
-                          imageFormat: _format,
-                          maxHeight: _sizeH,
-                          maxWidth: _sizeW,
-                          timeMs: _timeMs,
-                          quality: _quality));
-                });
-              },
-              child: const Text("File"),
-            ),
-          ],
-        ));
+                    thumbnailRequest: ThumbnailRequest(
+                        video: _video.text,
+                        thumbnailPath: _tempDir,
+                        imageFormat: _format,
+                        maxHeight: _sizeH,
+                        maxWidth: _sizeW,
+                        timeMs: _timeMs,
+                        quality: _quality),
+                  );
+                },
+              );
+            },
+            child: const Text("File"),
+          ),
+        ],
+      ),
+    );
   }
 }
