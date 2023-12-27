@@ -1,10 +1,10 @@
 name: video_thumbnail_example
 description: Demonstrates how to use the video_thumbnail plugin.
 version: 0.1.7
-publish_to: 'none'
+publish_to: "none"
 
 environment:
-  sdk: ">=2.5.2 <3.0.0"
+  sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -14,8 +14,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  image_picker: '>=0.6.2 <2.0.0'
-  path_provider: ^1.6.0
+  image_picker: ">=0.6.2 <2.0.0"
+  path_provider: ^2.1.1
   video_thumbnail:
     path: ../
 
@@ -24,7 +24,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
