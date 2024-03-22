@@ -4,13 +4,13 @@ version '1.0-SNAPSHOT'
 buildscript {
     repositories {
         google()
-        // jcenter() is verouderd en zou idealiter vervangen moeten worden door mavenCentral() indien mogelijk
+        // jcenter() is deprecated and should ideally be replaced by mavenCentral() if possible
         mavenCentral() 
     }
 
     dependencies {
-        // Update de classpath naar een nieuwere versie van de Android Gradle Plugin
-        classpath 'com.android.tools.build:gradle:7.0.0' // Of een nog nieuwere versie indien compatibel
+        // Update the classpath to a newer version of the Android Gradle Plugin
+        classpath 'com.android.tools.build:gradle:7.0.0' // Or a newer version if compatible
     }
 }
 
@@ -24,9 +24,9 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33 // Zorg ervoor dat deze overeenkomt met de laatste beschikbare versie of jouw specifieke vereisten
+    compileSdkVersion 34 // Ensure this matches the latest available version
 
-    // Voeg de namespace toe zoals vereist door de nieuwere versies van de Android Gradle Plugin
+    // Add the namespace as required by the newer versions of the Android Gradle Plugin
     namespace 'xyz.justsoft.video_thumbnail'
 
     defaultConfig {
