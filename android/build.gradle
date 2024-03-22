@@ -4,13 +4,11 @@ version '1.0-SNAPSHOT'
 buildscript {
     repositories {
         google()
-        // jcenter() is deprecated and should ideally be replaced by mavenCentral() if possible
         mavenCentral() 
     }
 
     dependencies {
-        // Update the classpath to a newer version of the Android Gradle Plugin
-        classpath 'com.android.tools.build:gradle:7.0.0' // Or a newer version if compatible
+        classpath 'com.android.tools.build:gradle:7.0.0'
     }
 }
 
@@ -26,8 +24,9 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 34 // Ensure this matches the latest available version
 
-    // Add the namespace as required by the newer versions of the Android Gradle Plugin
-    namespace 'xyz.justsoft.video_thumbnail'
+    if (project.android.hasProperty("namespace")) {
+        namespace "xyz.justsoft.video_thumbnail"
+    }
 
     defaultConfig {
         minSdkVersion 16
