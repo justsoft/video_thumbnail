@@ -7,9 +7,12 @@
 ///  * [video_thumbnail](https://pub.dev/packages/video_thumbnail)
 ///
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
+
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 /// Support most popular image formats.
 /// Uses libwebp to encode WebP image on iOS platform.
@@ -35,6 +38,21 @@ class VideoThumbnail {
       int quality = 10}) async {
     assert(video.isNotEmpty);
     if (video.isEmpty) return null;
+
+    thumbnailPath ??= (await getTemporaryDirectory()).path;
+
+    String ext = path.extension(thumbnailPath);
+    if (ext.isEmpty) {
+      ext = 'png';
+      if (imageFormat == ImageFormat.JPEG) {
+        ext = 'jpg';
+      } else if (imageFormat == ImageFormat.WEBP) {
+        ext = 'webp';
+      }
+
+      thumbnailPath = path.join(thumbnailPath, '${const Uuid().v4()}.$ext');
+    }
+
     final reqMap = <String, dynamic>{
       'video': video,
       'headers': headers,
