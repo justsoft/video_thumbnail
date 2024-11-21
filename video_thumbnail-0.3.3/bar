@@ -1,0 +1,93 @@
+commit 3f7a3c7562d0c475a21eb1bb0c1571d49cb12dc2
+Author: John Zhong <john138@gmail.com>
+Date:   Thu Mar 25 09:32:17 2021 -0600
+
+    Change the timeMS to long, thanks for Nael Al Abbasi <notifications@github.com>, bumps to 0.3.2
+
+diff --git a/README.md b/README.md
+index 9fd6fdd..3cf126d 100644
+--- a/README.md
++++ b/README.md
+@@ -2,7 +2,7 @@
+ 
+ This plugin generates thumbnail from video file or URL.  It returns image in memory or writes into a file.  It offers rich options to control the image format, resolution and quality.  Supports iOS and Android.
+ 
+-  [![pub ver](https://img.shields.io/badge/pub-v0.3.3-blue)](https://pub.dev/packages/video_thumbnail)
++  [![pub ver](https://img.shields.io/badge/pub-v0.3.2-blue)](https://pub.dev/packages/video_thumbnail)
+   [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/justsoft/)
+ 
+ ![video-file](https://github.com/justsoft/video_thumbnail/blob/master/video_file.png?raw=true) ![video-url](https://github.com/justsoft/video_thumbnail/blob/master/video_url.png?raw=true)
+@@ -23,7 +23,7 @@ Warning:
+ add [video_thumbnail](https://pub.dev/packages/video_thumbnail) as a dependency in your pubspec.yaml file.
+ ```yaml
+ dependencies:
+-  video_thumbnail: ^0.3.3
++  video_thumbnail: ^0.3.2
+ ```
+ **import**
+ ```dart
+diff --git a/android/src/main/java/xyz/justsoft/video_thumbnail/VideoThumbnailPlugin.java b/android/src/main/java/xyz/justsoft/video_thumbnail/VideoThumbnailPlugin.java
+index 510ea63..1fb4d0a 100644
+--- a/android/src/main/java/xyz/justsoft/video_thumbnail/VideoThumbnailPlugin.java
++++ b/android/src/main/java/xyz/justsoft/video_thumbnail/VideoThumbnailPlugin.java
+@@ -56,7 +56,7 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
+         final int format = (int) args.get("format");
+         final int maxh = (int) args.get("maxh");
+         final int maxw = (int) args.get("maxw");
+-        final int timeMs = (int) args.get("timeMs");
++        final long timeMs = (long) args.get("timeMs");
+         final int quality = (int) args.get("quality");
+         final String method = call.method;
+ 
+@@ -110,7 +110,7 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
+         }
+     }
+ 
+-    private byte[] buildThumbnailData(String vidPath, int format, int maxh, int maxw, int timeMs, int quality) {
++    private byte[] buildThumbnailData(String vidPath, int format, int maxh, int maxw, long timeMs, int quality) {
+         Log.d(TAG, String.format("buildThumbnailData( format:%d, maxh:%d, maxw:%d, timeMs:%d, quality:%d )", format,
+                 maxh, maxw, timeMs, quality));
+         Bitmap bitmap = createVideoThumbnail(vidPath, maxh, maxw, timeMs);
+@@ -125,7 +125,7 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
+         return stream.toByteArray();
+     }
+ 
+-    private String buildThumbnailFile(String vidPath, String path, int format, int maxh, int maxw, int timeMs,
++    private String buildThumbnailFile(String vidPath, String path, int format, int maxh, int maxw, long timeMs,
+             int quality) {
+         Log.d(TAG, String.format("buildThumbnailFile( format:%d, maxh:%d, maxw:%d, timeMs:%d, quality:%d )", format,
+                 maxh, maxw, timeMs, quality));
+@@ -193,7 +193,7 @@ public class VideoThumbnailPlugin implements MethodCallHandler {
+      * @param targetH the max height of the thumbnail
+      * @param targetW the max width of the thumbnail
+      */
+-    public static Bitmap createVideoThumbnail(final String video, int targetH, int targetW, int timeMs) {
++    public static Bitmap createVideoThumbnail(final String video, int targetH, int targetW, long timeMs) {
+         Bitmap bitmap = null;
+         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+         try {
+diff --git a/example/pubspec.lock b/example/pubspec.lock
+index d1d2164..690cd8e 100644
+--- a/example/pubspec.lock
++++ b/example/pubspec.lock
+@@ -176,7 +176,7 @@ packages:
+       path: ".."
+       relative: true
+     source: path
+-    version: "0.3.3"
++    version: "0.3.2"
+ sdks:
+   dart: ">=2.12.0 <3.0.0"
+   flutter: ">=1.10.0"
+diff --git a/pubspec.yaml b/pubspec.yaml
+index 9c28297..43b18bd 100644
+--- a/pubspec.yaml
++++ b/pubspec.yaml
+@@ -1,6 +1,6 @@
+ name: video_thumbnail
+ description: A flutter plugin for creating a thumbnail from a local video file or from a video URL.
+-version: 0.3.3
++version: 0.3.2
+ # author: John Zhong <john138@gmail.com>, Tairs Rzajevs <tairs.rzayevs@chi.lv>, Grigori <jlavyan@gmail.com>, Hafeez Ahmed <hahmed@fusionsd.com.au>, Leynier <leynier41@gmail.com>
+ homepage: https://github.com/justsoft
+ repository: https://github.com/justsoft/video_thumbnail
