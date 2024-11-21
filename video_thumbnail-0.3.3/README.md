@@ -6,7 +6,7 @@ This plugin generates thumbnail from video file or URL.  It returns image in mem
   [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/justsoft/)
 
 ![video-file](https://github.com/justsoft/video_thumbnail/blob/master/video_file.png?raw=true) ![video-url](https://github.com/justsoft/video_thumbnail/blob/master/video_url.png?raw=true)
-
+ 
 ## Methods
 |function|parameter|description|return|
 |--|--|--|--|
