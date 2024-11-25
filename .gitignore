@@ -8,3 +8,5 @@ build/
 
 .idea/
 *.iml
+.vscode/settings.json
+pubspec.lock
