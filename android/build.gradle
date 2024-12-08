@@ -22,6 +22,8 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
+    namespace 'com.video.thumbnail'
+
     compileSdkVersion 33
 
     defaultConfig {
