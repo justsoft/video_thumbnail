@@ -3,19 +3,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('video_thumbnail');
+  const MethodChannel channel =
+      MethodChannel('plugins.justsoft.xyz/video_thumbnail');
 
   setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
       final m = methodCall.method;
       final a = methodCall.arguments;
 
-      return '$m=${a["video"]}:${a["path"]}:${a["format"]}:${a["maxhow"]}:${a["quality"]}';
+      return '$m=${a["video"]}:${a["path"]}:${a["format"]}:${a["maxh"]}:${a["maxw"]}:${a["quality"]}';
     });
   });
 
   tearDown(() {
-    channel.setMockMethodCallHandler(null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, null);
   });
 
   test('thumbnailData', () async {
@@ -24,9 +28,9 @@ void main() {
             video: 'video',
             thumbnailPath: 'path',
             imageFormat: ImageFormat.JPEG,
-            maxWidth: 123,
             maxHeight: 123,
+            maxWidth: 124,
             quality: 45),
-        'file=video:path:0:123:45');
+        'file=video:path:0:123:124:45');
   });
 }
