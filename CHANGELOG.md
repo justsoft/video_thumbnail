@@ -1,4 +1,4 @@
-## 0.5.3
+## 0.5.4
 * Update dart min sdk to 3.0.0.
 * Upgrade the android compileSdkVersion to 34.
 * Updates minSdkVersion to 19.
