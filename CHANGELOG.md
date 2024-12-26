@@ -1,3 +1,10 @@
+## 0.5.4
+* Update dart min sdk to 3.0.0.
+* Upgrade the android compileSdkVersion to 34.
+* Updates minSdkVersion to 19.
+* Updates AGP version to 8.5.2.
+* Bump to 0.5.4
+  
 ## 0.5.3
 * Thanks Ajb Coder for:
   -   Fix: IOException on runtime

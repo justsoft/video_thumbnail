@@ -4,7 +4,7 @@ version: 0.1.7
 publish_to: 'none'
 
 environment:
-  sdk: ">=2.5.2 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,8 +14,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  image_picker: '>=0.6.2 <2.0.0'
-  path_provider: ^1.6.0
+  image_picker: ^1.1.2
+  path_provider: ^2.1.5
   video_thumbnail:
     path: ../
 
