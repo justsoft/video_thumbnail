@@ -321,10 +321,8 @@ class _DemoHomeState extends State<DemoHome> {
         appBar: AppBar(
           title: const Text('Thumbnail Plugin example'),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+        body: ListView(
+          children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 8.0),
               child: TextField(
@@ -344,20 +342,8 @@ class _DemoHomeState extends State<DemoHome> {
                 },
               ),
             ),
-            for (var i in _settings) i,
-            Expanded(
-              child: Container(
-                color: Colors.grey[300],
-                child: Scrollbar(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      _futreImage ?? SizedBox(),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            ..._settings,
+            _futreImage ?? SizedBox()
           ],
         ),
         drawer: Drawer(
@@ -372,7 +358,7 @@ class _DemoHomeState extends State<DemoHome> {
                   )
                 ],
               ),
-              for (var i in _settings) i,
+              ..._settings,
             ],
           ),
         ),
