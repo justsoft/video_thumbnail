@@ -1,14 +1,13 @@
 name: video_thumbnail
 description: A flutter plugin for creating a thumbnail from a local video file or from a video URL.
 version: 0.5.3
-# author: John Zhong <john138@gmail.com>, Tairs Rzajevs <tairs.rzayevs@chi.lv>, Grigori <jlavyan@gmail.com>, Hafeez Ahmed <hahmed@fusionsd.com.au>, Leynier <leynier41@gmail.com>, Andreas Petrov, julek-kal, Nils Reichardt, Ajb Coder 
+# author: John Zhong <john138@gmail.com>, Tairs Rzajevs <tairs.rzayevs@chi.lv>, Grigori <jlavyan@gmail.com>, Hafeez Ahmed <hahmed@fusionsd.com.au>, Leynier <leynier41@gmail.com>, Andreas Petrov, julek-kal, Nils Reichardt, Ajb Coder
 homepage: https://github.com/justsoft
 repository: https://github.com/justsoft/video_thumbnail
 issue_tracker: https://github.com/justsoft/video_thumbnail/issues
 
 environment:
-  sdk: '>=2.16.0 <3.0.0'
-  flutter: ">=1.10.0"
+  sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
   flutter:
