@@ -4,18 +4,17 @@ version '1.0-SNAPSHOT'
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()  // Replaced jcenter() as it’s deprecated
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:7.0.0'  // Updated to a version supporting namespaces
     }
 }
 
-rootProject.allprojects {
+allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -23,7 +22,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 33
-    namespace 'com.example.video_thumbnail'
+    namespace 'xyz.justsoft.video_thumbnail'  // Matches the group for consistency
 
     defaultConfig {
         minSdkVersion 16
