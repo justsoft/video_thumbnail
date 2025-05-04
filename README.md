@@ -1,9 +1,10 @@
-# video_thumbnail
+# video_thumbnail (forked)
 
-This plugin generates thumbnail from video file or URL.  It returns image in memory or writes into a file.  It offers rich options to control the image format, resolution and quality.  Supports iOS and Android.
+This fork of `video_thumbnail` generates image thumbnails from video files or URLs on both Android and iOS. It returns an image in memory or saves it as a file with customizable format, resolution, and quality.
+- This fork includes updates to support modern Android Gradle Plugin versions, such as setting a `namespace` in `build.gradle`.
+- Originally, this package failed to compile in modern projects due to missing namespace configuration.
 
   [![pub ver](https://img.shields.io/badge/pub-v0.5.3-blue)](https://pub.dev/packages/video_thumbnail)
-  [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/justsoft/)
 
 ![video-file](https://github.com/justsoft/video_thumbnail/blob/master/video_file.png?raw=true) ![video-url](https://github.com/justsoft/video_thumbnail/blob/master/video_url.png?raw=true)
 
@@ -20,10 +21,13 @@ Warning:
 ## Usage
 
 **Installing**
-add [video_thumbnail](https://pub.dev/packages/video_thumbnail) as a dependency in your pubspec.yaml file.
+add `video_thumbnail` as a dependency in your pubspec.yaml file.
 ```yaml
 dependencies:
-  video_thumbnail: ^0.5.3
+  video_thumbnail:
+    git:
+      url: https://github.com/blissfulsaint/video_thumbnail.git
+      ref: main
 ```
 **import**
 ```dart
@@ -68,4 +72,5 @@ final fileName = await VideoThumbnail.thumbnailFile(
 ```
 
 ## Notes
-Fork or pull requests are always welcome. Currently it seems have a little performance issue while generating WebP thumbnail by using libwebp under iOS.
+- This fork is not published to pub.dev but can be referenced via Git.
+- Pull requests and contributions are welcome.

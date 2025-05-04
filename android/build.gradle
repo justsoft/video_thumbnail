@@ -23,6 +23,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 33
+    namespace 'xyz.justsoft.video_thumbnail'
 
     defaultConfig {
         minSdkVersion 16
