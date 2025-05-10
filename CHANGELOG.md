@@ -1,3 +1,7 @@
+## 0.5.5
+* Thank blissfulsaint(Brandon Lisonbee) for:
+ - Add namespace fix for Android
+* Bump to 0.5.5
 ## 0.5.3
 * Thanks Ajb Coder for:
   -   Fix: IOException on runtime
