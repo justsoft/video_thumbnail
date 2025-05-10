@@ -4,18 +4,18 @@ version '1.0-SNAPSHOT'
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral() // Replace jcenter() with mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:7.4.2' // Update to a newer AGP version
     }
 }
 
-rootProject.allprojects {
+allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral() // Replace jcenter() with mavenCentral()
     }
 }
 
@@ -23,9 +23,10 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 33
+    namespace 'com.example.video_thumbnail'
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 24 // Align with your app’s minSdk 24
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
