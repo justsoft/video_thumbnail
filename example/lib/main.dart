@@ -21,21 +21,22 @@ class MyApp extends StatelessWidget {
 
 class ThumbnailRequest {
   final String video;
-  final String thumbnailPath;
+  final String? thumbnailPath;
   final ImageFormat imageFormat;
   final int maxHeight;
   final int maxWidth;
   final int timeMs;
   final int quality;
 
-  const ThumbnailRequest(
-      {this.video,
-      this.thumbnailPath,
-      this.imageFormat,
-      this.maxHeight,
-      this.maxWidth,
-      this.timeMs,
-      this.quality});
+  const ThumbnailRequest({
+    required this.video,
+    this.thumbnailPath,
+    required this.imageFormat,
+    required this.maxHeight,
+    required this.maxWidth,
+    required this.timeMs,
+    required this.quality,
+  });
 }
 
 class ThumbnailResult {
@@ -43,13 +44,19 @@ class ThumbnailResult {
   final int dataSize;
   final int height;
   final int width;
-  const ThumbnailResult({this.image, this.dataSize, this.height, this.width});
+
+  const ThumbnailResult({
+    required this.image,
+    required this.dataSize,
+    required this.height,
+    required this.width,
+  });
 }
 
 Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
-  //WidgetsFlutterBinding.ensureInitialized();
   Uint8List bytes;
   final Completer<ThumbnailResult> completer = Completer();
+
   if (r.thumbnailPath != null) {
     final thumbnailPath = await VideoThumbnail.thumbnailFile(
         video: r.video,
@@ -66,10 +73,14 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
 
     print("thumbnail file is located: $thumbnailPath");
 
+    if (thumbnailPath == null) {
+      throw Exception('Failed to generate thumbnail file');
+    }
+
     final file = File(thumbnailPath);
     bytes = file.readAsBytesSync();
   } else {
-    bytes = await VideoThumbnail.thumbnailData(
+    bytes = (await VideoThumbnail.thumbnailData(
         video: r.video,
         headers: {
           "USERHEADER1": "user defined header1",
@@ -79,15 +90,15 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
         maxHeight: r.maxHeight,
         maxWidth: r.maxWidth,
         timeMs: r.timeMs,
-        quality: r.quality);
+        quality: r.quality))!;
   }
 
-  int _imageDataSize = bytes.length;
+  final _imageDataSize = bytes.length;
   print("image size: $_imageDataSize");
 
   final _image = Image.memory(bytes);
   _image.image
-      .resolve(ImageConfiguration())
+      .resolve(const ImageConfiguration())
       .addListener(ImageStreamListener((ImageInfo info, bool _) {
     completer.complete(ThumbnailResult(
       image: _image,
@@ -102,7 +113,7 @@ Future<ThumbnailResult> genThumbnail(ThumbnailRequest r) async {
 class GenThumbnailImage extends StatefulWidget {
   final ThumbnailRequest thumbnailRequest;
 
-  const GenThumbnailImage({Key key, this.thumbnailRequest}) : super(key: key);
+  const GenThumbnailImage({super.key, required this.thumbnailRequest});
 
   @override
   _GenThumbnailImageState createState() => _GenThumbnailImageState();
@@ -113,12 +124,12 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
   Widget build(BuildContext context) {
     return FutureBuilder<ThumbnailResult>(
       future: genThumbnail(widget.thumbnailRequest),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<ThumbnailResult> snapshot) {
         if (snapshot.hasData) {
-          final _image = snapshot.data.image;
-          final _width = snapshot.data.width;
-          final _height = snapshot.data.height;
-          final _dataSize = snapshot.data.dataSize;
+          final _image = snapshot.data!.image;
+          final _width = snapshot.data!.width;
+          final _height = snapshot.data!.height;
+          final _dataSize = snapshot.data!.dataSize;
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -136,7 +147,7 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
           );
         } else if (snapshot.hasError) {
           return Container(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             color: Colors.red,
             child: Text(
               "Error:\n${snapshot.error.toString()}",
@@ -149,21 +160,14 @@ class _GenThumbnailImageState extends State<GenThumbnailImage> {
               children: <Widget>[
                 Text(
                     "Generating the thumbnail for: ${widget.thumbnailRequest.video}..."),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
-                CircularProgressIndicator(),
+                const CircularProgressIndicator(),
               ]);
         }
       },
     );
-  }
-}
-
-class ImageInFile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
 
@@ -183,9 +187,9 @@ class _DemoHomeState extends State<DemoHome> {
   int _sizeW = 0;
   int _timeMs = 0;
 
-  GenThumbnailImage _futreImage;
-
-  String _tempDir;
+  GenThumbnailImage? _futreImage;
+  late String _tempDir;
+  final _picker = ImagePicker();
 
   @override
   void initState() {
@@ -257,7 +261,7 @@ class _DemoHomeState extends State<DemoHome> {
       Padding(
         padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 8.0),
         child: InputDecorator(
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(),
             filled: true,
             isDense: true,
@@ -275,7 +279,7 @@ class _DemoHomeState extends State<DemoHome> {
                       groupValue: _format,
                       value: ImageFormat.JPEG,
                       onChanged: (v) => setState(() {
-                        _format = v;
+                        _format = v!;
                         _editNode.unfocus();
                       }),
                     ),
@@ -289,7 +293,7 @@ class _DemoHomeState extends State<DemoHome> {
                       groupValue: _format,
                       value: ImageFormat.PNG,
                       onChanged: (v) => setState(() {
-                        _format = v;
+                        _format = v!;
                         _editNode.unfocus();
                       }),
                     ),
@@ -303,7 +307,7 @@ class _DemoHomeState extends State<DemoHome> {
                       groupValue: _format,
                       value: ImageFormat.WEBP,
                       onChanged: (v) => setState(() {
-                        _format = v;
+                        _format = v!;
                         _editNode.unfocus();
                       }),
                     ),
@@ -314,6 +318,7 @@ class _DemoHomeState extends State<DemoHome> {
         ),
       )
     ];
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Thumbnail Plugin example'),
@@ -325,7 +330,7 @@ class _DemoHomeState extends State<DemoHome> {
             Padding(
               padding: const EdgeInsets.fromLTRB(2.0, 10.0, 2.0, 8.0),
               child: TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   filled: true,
                   isDense: true,
@@ -349,7 +354,7 @@ class _DemoHomeState extends State<DemoHome> {
                   child: ListView(
                     shrinkWrap: true,
                     children: <Widget>[
-                      (_futreImage != null) ? _futreImage : SizedBox(),
+                      if (_futreImage != null) _futreImage!,
                     ],
                   ),
                 ),
@@ -364,7 +369,7 @@ class _DemoHomeState extends State<DemoHome> {
                 title: const Text("Settings"),
                 actions: <Widget>[
                   IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () => Navigator.pop(context),
                   )
                 ],
@@ -379,13 +384,15 @@ class _DemoHomeState extends State<DemoHome> {
           children: <Widget>[
             FloatingActionButton(
               onPressed: () async {
-                File video =
-                    await ImagePicker.pickVideo(source: ImageSource.camera);
-                setState(() {
-                  _video.text = video.path;
-                });
+                final XFile? videoFile =
+                    await _picker.pickVideo(source: ImageSource.camera);
+                if (videoFile != null) {
+                  setState(() {
+                    _video.text = videoFile.path;
+                  });
+                }
               },
-              child: Icon(Icons.videocam),
+              child: const Icon(Icons.videocam),
               tooltip: "Capture a video",
             ),
             const SizedBox(
@@ -393,13 +400,15 @@ class _DemoHomeState extends State<DemoHome> {
             ),
             FloatingActionButton(
               onPressed: () async {
-                File video =
-                    await ImagePicker.pickVideo(source: ImageSource.gallery);
-                setState(() {
-                  _video.text = video?.path;
-                });
+                final XFile? videoFile =
+                    await _picker.pickVideo(source: ImageSource.gallery);
+                if (videoFile != null) {
+                  setState(() {
+                    _video.text = videoFile.path;
+                  });
+                }
               },
-              child: Icon(Icons.local_movies),
+              child: const Icon(Icons.local_movies),
               tooltip: "Pick a video",
             ),
             const SizedBox(
