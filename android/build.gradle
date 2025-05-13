@@ -7,8 +7,8 @@ buildscript {
         jcenter()
     }
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+     dependencies {
+        classpath 'com.android.tools.build:gradle:8.3.0'
     }
 }
 
@@ -22,13 +22,25 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+//    kotlinOptions {
+//        jvmTarget = "17"
+//    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
     defaultConfig {
-        minSdkVersion 16
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        minSdkVersion 21
     }
     lintOptions {
         disable 'InvalidPackage'
     }
+    namespace 'xyz.justsoft.video_thumbnail'
 }
