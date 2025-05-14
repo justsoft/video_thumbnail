@@ -1,3 +1,6 @@
+## 0.5.6
+* Actually add the namespace fix for Android
+* Bump to 0.5.6
 ## 0.5.5
 * Thank blissfulsaint(Brandon Lisonbee) for:
  - Add namespace fix for Android
