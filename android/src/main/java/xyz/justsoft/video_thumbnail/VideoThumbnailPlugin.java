@@ -64,6 +64,7 @@ public class VideoThumbnailPlugin implements FlutterPlugin, MethodCallHandler {
         final int maxw = (int) args.get("maxw");
         final int timeMs = (int) args.get("timeMs");
         final int quality = (int) args.get("quality");
+        final  String fileName = (String) args.get("filename");
         final String method = call.method;
 
         executor.execute(new Runnable() {
@@ -76,7 +77,7 @@ public class VideoThumbnailPlugin implements FlutterPlugin, MethodCallHandler {
                 try {
                     if (method.equals("file")) {
                         final String path = (String) args.get("path");
-                        thumbnail = buildThumbnailFile(video, headers, path, format, maxh, maxw, timeMs, quality);
+                        thumbnail = buildThumbnailFile(video, headers, path, format, maxh, maxw, timeMs, quality, fileName);
                         handled = true;
 
                     } else if (method.equals("data")) {
@@ -134,20 +135,26 @@ public class VideoThumbnailPlugin implements FlutterPlugin, MethodCallHandler {
 
     private String buildThumbnailFile(final String vidPath, final HashMap<String, String> headers, String path,
             int format, int maxh, int maxw, int timeMs,
-            int quality) {
+            int quality, String fileName) {
         // Log.d(TAG, String.format("buildThumbnailFile( format:%d, maxh:%d, maxw:%d,
         // timeMs:%d, quality:%d )", format, maxh, maxw, timeMs, quality));
         final byte bytes[] = buildThumbnailData(vidPath, headers, format, maxh, maxw, timeMs, quality);
         final String ext = formatExt(format);
         final int i = vidPath.lastIndexOf(".");
-        String fullpath = vidPath.substring(0, i + 1) + ext;
+        String fullpath = null;
+        if (fileName != null) {
+            fullpath = fileName + "." + ext;
+        }
+         else {
+            fullpath = vidPath.substring(0, i + 1) + ext;
+        }
         final boolean isLocalFile = (vidPath.startsWith("/") || vidPath.startsWith("file://"));
 
         if (path == null && !isLocalFile) {
             path = context.getCacheDir().getAbsolutePath();
         }
 
-        if (path != null) {
+        if (path != null && fileName == null) {
             if (path.endsWith(ext)) {
                 fullpath = path;
             } else {
@@ -160,6 +167,9 @@ public class VideoThumbnailPlugin implements FlutterPlugin, MethodCallHandler {
                     fullpath = path + fullpath.substring(j);
                 }
             }
+        }
+        else {
+            fullpath = path + fullpath;
         }
 
         try {
